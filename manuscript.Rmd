@@ -26,7 +26,7 @@ abstract: >
 keywords          : "Equivalence Testing, NHST, power, TOST"
 wordcount         : "X"
 
-bibliography      : ["r-references.bib"]
+bibliography      : ["equivalence.bib"]
 
 figsintext        : no
 figurelist        : no
@@ -43,6 +43,11 @@ output            : papaja::apa6_pdf
 library("papaja")
 ```
 
+Psychologists should be able to falsify predictions. A common prediction in psychological research is that an effect exists in the population that differs from zero. For example, we might predict that priming American Asian women with their Asian identify will increase their performence on a math test compared to women in the control condition who are primed with their female identity. To design a study that allows for strong inferences (@platt_strong_1964) it is therefore important to specify which test result would *disprove* the hypothesis.
+
+An equivalence test can be used to test whether the observed effect is surprisingly close to zero, assuming a meaningful effect exists in the population. The test is a simple variation on the widely used null hypothesis significance tests, with the small difference that instead of testing the observed effect against zero, it is tested against a smallest effect size of interest (SESOI). For example, if an improvement on a math test of 5% or more is considered meaningful, one could test against a SESOI of 5%. If the observed effect is suprisingly closer to 0, assuming a true effect of 5% existed, one can declare statistical equivalence, or reject effects that are large enough to be considered meaningful.  
+
+<!-- If we use Dienes & McLatchie's 5 examples, it would make sense to add a Figure like a forest plot, where we present the effect size estimates (raw or standardized) indicated by a square, lines that represent the 90% CI, and another symbol or | to indicate the SESOI, sor all examples. We can then also use the same Figure in the intro to explain the four possible outcomes of equivalence testing). Although we should do all tests in R, we also should try to create Jamovi files that contain the data and analyses - another reason to follow Zoltan in using the Social Psychology special issue studies, because the data should be shared, and we can import the raw data into Jamovi files, save these (with the analysis) and share them.  -->
 
 # Justifying the Smallest Effect Size of Interest
 
@@ -50,9 +55,9 @@ Equivalence tests are performed against a value that is considered the smallest 
 
 ##Objective Justifications of a SESOI
 
-An objectively determined SESOI should be based on quantifiable theoretical predictions, such as computational models. Sometimes, the only theoretical prediction is that an effect should be noticeable. In such circumstances, the SESOI can be set based on just noticeable differences. For example, Burriss and colleagues (2015) examined whether women displayed an increase in redness in the face during the fertile phase of their ovulatory cycle. The hypothesis was that a slighly redder skin signals greater attractiveness and physical health, and sending this signal to men yields an evolutionary advantage. This hypothesis requires that the increase in redness can be detected with the naked eye by men. Penke et al (2017) collected data from X women, and showed that there was indeed an increase in redness of the facial skin of woman during their fertile period. However, this increase was not large enough to be noticeable with the naken eye by men, thus falsifying their hypothesis. Because the just noticeable difference in redness of the skin can be measured, it is possible to objectively establish the SESOI.
+An objectively determined SESOI should be based on quantifiable theoretical predictions, such as computational models. Sometimes, the only theoretical prediction is that an effect should be noticeable. In such circumstances, the SESOI can be set based on just noticeable differences. For example, Burriss and colleagues (2015) examined whether women displayed an increase in redness in the face during the fertile phase of their ovulatory cycle. The hypothesis was that a slighly redder skin signals greater attractiveness and physical health, and sending this signal to men yields an evolutionary advantage. This hypothesis requires that the increase in redness can be detected with the naked eye by men. @burriss_changes_2015 collected data from 22 women and showed that there was indeed an increase in redness of the facial skin of woman during their fertile period. However, this increase was not large enough to be noticeable with the naken eye by men, thus falsifying their hypothesis. Because the just noticeable difference in redness of the skin can be measured, it is possible to objectively establish the SESOI.
 
-Another example of an objectively determined SESOI can be found in Button and colleagues (2015) where the minimal clinically important difference on the Beck Depression Inventory - II was determined by asking X patients when they subjectively felt less depressed (i.e., when they personally noticed an improvement) and relating this to the corresponding difference score on the depression inventory. 
+Another example of an objectively determined SESOI can be found in @button_minimal_2015 where the minimal clinically important difference on the Beck Depression Inventory - II was determined by asking 1039 patients when they subjectively felt less depressed (i.e., when they personally noticed an improvement) and relating this to the corresponding difference score on the depression inventory. 
 
 ##Subjective justifications of a SESOI
 
