@@ -42,25 +42,27 @@ output            : papaja::apa6_pdf
 ```{r include = FALSE}
 library("papaja")
 
-papaja:::fetch_zotero_refs(
-  x = "1786197"
-  , bib_name = "equivalence.bib"
-  , API_key = "F7JGNtCxZGT6q87Eeg2zNWiP"
-  , lib_type = "group"
-)
+# papaja:::fetch_zotero_refs(
+#   x = "1786197"
+#   , bib_name = "equivalence.bib"
+#   , API_key = "F7JGNtCxZGT6q87Eeg2zNWiP"
+#   , lib_type = "group"
+# )
 ```
 
-This is a test
+Psychologists should be able to falsify predictions. A common prediction in psychological research is that an effect exists in the population that differs from zero. For example, we might predict that priming American Asian women with their Asian identify will increase their performence on a math test compared to women in the control condition who are primed with their female identity. To be able to falsify this hypothesies, and design a study that allows for strong inferences @platt_strong_1964, it is important to specify which test result would *disprove* the hypothesis.
 
-Psychologists should be able to falsify predictions. A common prediction in psychological research is that an effect exists in the population that differs from zero. For example, we might predict that priming American Asian women with their Asian identify will increase their performence on a math test compared to women in the control condition who are primed with their female identity. To design a study that allows for strong inferences (@platt_strong_1964) it is therefore important to specify which test result would *disprove* the hypothesis.
+An equivalence test can be used to test whether the observed effect is surprisingly close to zero, assuming a meaningful effect exists in the population. The test is a simple variation on the widely used null hypothesis significance tests, with the small difference that instead of testing the observed effect against zero, it is tested against a smallest effect size of interest (SESOI). For example, if a difference on a math test of 5% or more is considered meaningful, one could test against a SESOI of 5%. If the observed effect is suprisingly closer to 0, assuming a true effect of 5% or larger existed, one can declare statistical equivalence, or reject the presence of effects that are large enough to be considered meaningful. An equivalence test can be used to falsify hypotheses. 
 
-An equivalence test can be used to test whether the observed effect is surprisingly close to zero, assuming a meaningful effect exists in the population. The test is a simple variation on the widely used null hypothesis significance tests, with the small difference that instead of testing the observed effect against zero, it is tested against a smallest effect size of interest (SESOI). For example, if an improvement on a math test of 5% or more is considered meaningful, one could test against a SESOI of 5%. If the observed effect is suprisingly closer to 0, assuming a true effect of 5% existed, one can declare statistical equivalence, or reject effects that are large enough to be considered meaningful.  
+One can conclude statistical equivalence whenever a 90% confidence interval around the effect size estimate does not contain the SESOI, or when two one-sided tests (i.e., examining whether the difference on the math test is more than -5%, but less than 5%) are statistically significant. By combining null-hypothesis tests and equivalence tests, four combinations of results can be observed (see Figure 1). Two outcomes are straightforward to interpret, namely when the effect is equivalent to zero, and not different from zero (an effect that is not meaningful), and when the effect is not equivalent, and different from zero (a meaningful effect). In addition, the effect can be different from zero and too small to be considered meaningful (an effect which is not meaningful) or the effect can neither differ from zero, not be equivalent to zero (an undetermined result, where more data is needed).
+
+Even though equivalence tests are just a small variation of traditional Frequentist tests (testing against the SESOI, instead of 0), their use was limited until the availability of user-friendly software to perform the calculations (@lakens_equivalence_2017). In this article, we discuss different approaches to determining the SESOI for psychological research, and provide detailed reproducible examples of how to perform power analyses when designing equivalence tests, and statistical re-analyses of published psychology experiments.
 
 <!-- If we use Dienes & McLatchie's 5 examples, it would make sense to add a Figure like a forest plot, where we present the effect size estimates (raw or standardized) indicated by a square, lines that represent the 90% CI, and another symbol or | to indicate the SESOI, sor all examples. We can then also use the same Figure in the intro to explain the four possible outcomes of equivalence testing). Although we should do all tests in R, we also should try to create Jamovi files that contain the data and analyses - another reason to follow Zoltan in using the Social Psychology special issue studies, because the data should be shared, and we can import the raw data into Jamovi files, save these (with the analysis) and share them.  -->
 
 # Justifying the Smallest Effect Size of Interest
 
-Equivalence tests are performed against a value that is considered the smallest effect size of interest (SESOI). The SESOI is sometimes based on just noticeable differences, which can be objectively determined. Most often, however, it is a subjective decision that varies across individuals and time. Both these approaches are valid, and even when a just noticeable difference can be objectively determined, researchers might choose to set the SESOI to a larger value. In many research areas, the SESOI is based on a cost-benefit analysis. Since both costs and benefits are necessarily relative, the SESOI will depend on the researcher who designs the study. The goal of setting a SESOI is to clearly justify why designing a study that has a high probability of rejecting effects larger than a specified value contributes to our knowledge base. The goal is not to determine a SESOI that is universally valid: The goal is to set a SESOI such that inferences based on it answer a meaninful question. 
+Equivalence tests are performed against a value that is considered the smallest effect size of interest (SESOI). The SESOI can sometimes based on just noticeable differences, which can be objectively determined. Most often, however, it is a subjective decision that varies across individuals and time. Both these approaches are valid, and even when a just noticeable difference can be objectively determined, researchers might choose to set the SESOI to a larger value. In many research areas, the SESOI is best based on a cost-benefit analysis. Since both costs and benefits are necessarily relative, the SESOI will depend on the researcher who designs the study. The goal of setting a SESOI is to clearly justify why designing a study that has a high probability of rejecting effects larger than a specified value contributes to our knowledge base. Researchers should not aim to determine a SESOI that is universally valid. The goal is to set a SESOI such that inferences based on it answer a meaningful question. 
 
 ##Objective Justifications of a SESOI
 
