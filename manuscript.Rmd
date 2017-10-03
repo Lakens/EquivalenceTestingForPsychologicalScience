@@ -43,6 +43,8 @@ output            : papaja::apa6_pdf
 library("papaja")
 ```
 
+This is a test
+
 Psychologists should be able to falsify predictions. A common prediction in psychological research is that an effect exists in the population that differs from zero. For example, we might predict that priming American Asian women with their Asian identify will increase their performence on a math test compared to women in the control condition who are primed with their female identity. To design a study that allows for strong inferences (@platt_strong_1964) it is therefore important to specify which test result would *disprove* the hypothesis.
 
 An equivalence test can be used to test whether the observed effect is surprisingly close to zero, assuming a meaningful effect exists in the population. The test is a simple variation on the widely used null hypothesis significance tests, with the small difference that instead of testing the observed effect against zero, it is tested against a smallest effect size of interest (SESOI). For example, if an improvement on a math test of 5% or more is considered meaningful, one could test against a SESOI of 5%. If the observed effect is suprisingly closer to 0, assuming a true effect of 5% existed, one can declare statistical equivalence, or reject effects that are large enough to be considered meaningful.  
