@@ -41,6 +41,13 @@ output            : papaja::apa6_pdf
 
 ```{r include = FALSE}
 library("papaja")
+
+papaja:::fetch_zotero_refs(
+  x = "1786197"
+  , bib_name = "equivalence.bib"
+  , API_key = "F7JGNtCxZGT6q87Eeg2zNWiP"
+  , lib_type = "group"
+)
 ```
 
 This is a test
