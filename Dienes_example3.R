@@ -352,12 +352,12 @@ rep.df <- rep.N-2
 # Calculate critical effect (d and raw): smallest effect orig. study had the power to detect
 t.crit = qt(1-.05/2, (orig.N-2))
 d.crit = t.crit*sqrt((1/(orig.N/2)) + 1/(orig.N/2))
-raw.crit <- d.crit * sqrt(orig.sd1^2 + orig.sd2^2/2) # smallest raw effect orig. study could detect
+raw.crit <- d.crit * orig.sdpooled # smallest raw effect orig. study could detect
 
 # Small telescopes: Calculate d for which orig. study had 33% power
 power <- pwr.t.test(n = orig.N/2, d = NULL, sig.level = 0.05, power = 0.33, type = "two.sample", alternative = "two.sided")
 d.33 <- power$d
-raw.33 <- d.33 * sqrt(orig.sd1^2 + orig.sd2^2/2) # raw effect for which orig. had 33% power
+raw.33 <- d.33 * orig.sdpooled # raw effect for which orig. had 33% power
 
 
 #### TOST & BF (re-)calculations 1: raw effects, using Neil's TOSTtwo.raw.nm
