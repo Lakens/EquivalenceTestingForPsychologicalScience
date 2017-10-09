@@ -10,12 +10,13 @@ tFromDescTwo <- function(m1, m2, sd1, sd2, n1, n2, test = "Welch") {
   output$n1     <- n1
   output$n2     <- n2
   output$m.diff <- m1 - m2      # Calculate the mean difference
-  output$df     <- n1 - n2 - 2  # Calculate degrees of freedom. Welch–Satterthwaite equation could be incorporated as well
+  output$df     <- n1 + n2 - 2  # Calculate degrees of freedom. Welch–Satterthwaite equation could be incorporated as well
   
   if (test == "Student") {  
     # Calculate se.diff, t and d based on a Student t.test
     print("Student's t.test is performed and sample sizes are assumed to be equal")
     output$test       <- "Student"
+    output$sd.pooled  <- sqrt( (sd1^2 + sd2^2) / (n1 + n2 - 2) )
     output$se.diff    <- sqrt( ((output$sd1^2) / output$n1) + ((output$sd2^2) / output$n2) ) # Calculate the se of the difference
     
   } else if (test == "Welch") {  
