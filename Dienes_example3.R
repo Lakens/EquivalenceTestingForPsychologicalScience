@@ -329,9 +329,11 @@ orig.sd2 <- 26.85
 orig.d <- 0.64
 orig.t <- 2.7
 orig.N <- 74
+orig.n1 <- orig.N/2 #group size unknown, therefore equal n assumed
+orig.n2 <- orig.n1 #group size unknown, therefore equal n assumed
 orig.raw <- abs(orig.m2-orig.m1)
 orig.sdpooled <- sqrt((orig.sd1^2 + orig.sd2^2)/(orig.N-2))
-orig.se <- orig.sdpooled/sqrt(orig.N)
+orig.se <- sqrt((orig.sd1^2/orig.n1)+(orig.sd2^2/orig.n2)) #standard error of *differences*
 orig.df <- orig.N-2
 
 # replication study: Brandt et al.
@@ -345,7 +347,7 @@ rep.n2 <- 61 # see previous comment
 rep.N <- 121
 rep.raw <- abs(rep.m2-rep.m1)
 rep.sdpooled <- sqrt((rep.sd1^2 + rep.sd2^2)/(rep.N-2))
-rep.se <- rep.sdpooled/sqrt(rep.N)
+rep.se <- sqrt((rep.sd1^2/rep.n1)+(rep.sd2^2/rep.n2)) #standard error of *differences*
 rep.df <- rep.N-2
 
 
@@ -376,8 +378,8 @@ Brandt.1.1.1 <- TOSTtwo.raw.nm(m1=rep.m1,
                                prior_dist = "halfnormal", 
                                effect_prior = orig.raw)
 
-##Brandt.1.1.2## TOST: small telescopes; BF: Cauchy
-# Dienes: BF = 0.97 --> !! not replicated: BF = 0.98
+##Brandt.1.1.2## TOST: small telescopes; BF: normal (meaning a t-distribution given df from original study)
+# Dienes: BF = 0.97 --> successfully replicated
 Brandt.1.1.2 <- TOSTtwo.raw.nm(m1=rep.m1, 
                                m2=rep.m2, 
                                sd1=rep.sd1, 
@@ -387,7 +389,7 @@ Brandt.1.1.2 <- TOSTtwo.raw.nm(m1=rep.m1,
                                low_eqbound = -raw.33, 
                                high_eqbound = raw.33, 
                                var.equal = TRUE, 
-                               prior_dist = "cauchy", 
+                               prior_dist = "normal", 
                                effect_prior = orig.raw, 
                                se_prior = orig.se, 
                                df_prior = orig.df)
@@ -407,8 +409,8 @@ Brandt.1.2.1 <- TOSTtwo.raw.nm(m1=rep.m1,
                                prior_dist = "halfnormal", 
                                effect_prior = orig.raw)
 
-##Brandt.1.2.2## TOST: critical effect; BF: Cauchy
-## Dienes: BF = 0.97 --> !! not replicated: BF = 0.98
+##Brandt.1.2.2## TOST: critical effect; BF: normal (meaning a t-distribution given df from original study)
+## Dienes: BF = 0.97 --> successfully replicated
 Brandt.1.2.2 <- TOSTtwo.raw.nm(m1=rep.m1, 
                                m2=rep.m2, 
                                sd1=rep.sd1, 
@@ -418,7 +420,7 @@ Brandt.1.2.2 <- TOSTtwo.raw.nm(m1=rep.m1,
                                low_eqbound = -raw.crit, 
                                high_eqbound = raw.crit, 
                                var.equal = TRUE, 
-                               prior_dist = "cauchy", 
+                               prior_dist = "normal", 
                                effect_prior = orig.raw,
                                se_prior = orig.se, 
                                df_prior = orig.df)
