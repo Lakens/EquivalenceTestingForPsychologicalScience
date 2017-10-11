@@ -10,20 +10,22 @@ tFromDescTwo <- function(m1, m2, sd1, sd2, n1, n2, test = "welch") {
   output$n1     <- n1
   output$n2     <- n2
   output$m.diff <- m1 - m2      # Calculate the mean difference
-  output$df     <- n1 + n2 - 2  # Calculate degrees of freedom. welch–Satterthwaite equation could be incorporated as well
+
   
   if (test == "student") {  
     # Calculate se.diff, t and d based on a student t.test
     print("student's t.test is performed and sample sizes are assumed to be equal")
     output$test       <- "student"
+    output$df         <- n1 + n2 - 2  # Calculate degrees of freedom. welch–Satterthwaite equation could be incorporated as well
     output$sd.pooled  <- sqrt( (sd1^2 + sd2^2) / (n1 + n2 - 2) )
     output$se.diff    <- sqrt( ((output$sd1^2) / output$n1) + ((output$sd2^2) / output$n2) ) # Calculate the se of the difference
     
   } else if (test == "welch") {  
     # Calculate se.diff, t and d based on a welch t.test, and calculate sd.pooled
     print("welch's t.test is performed and sample sizes are assumed to be unequal")
-    output$test        <- "welch"
-    output$sd.pooled  <- sqrt(( (output$n1-1) * (output$sd1^2) ) + ( (output$n2 - 1) * (output$sd2^2) ) / output$df) # Calculate the pooled standard deviation
+    output$test       <- "welch"
+    output$df         <- (sd1^2/n1+sd2^2/n2)^2/(((sd1^2/n1)^2/(n1-1))+((sd2^2/n2)^2/(n2-1))) #degrees of freedom for Welch's t-test
+    output$sd.pooled  <- sqrt((((output$n1 - 1) * (output$sd1^2) ) + ( (output$n2 - 1) * (output$sd2^2) )) / output$df) # Calculate the pooled standard deviation
     output$se.diff    <- sqrt(( (output$sd.pooled^2) / output$n1 ) + ( (output$sd.pooled^2) / output$n2 ))           # Calculate the se of the difference based on sd.pooled
     
     
@@ -31,8 +33,9 @@ tFromDescTwo <- function(m1, m2, sd1, sd2, n1, n2, test = "welch") {
     stop("The 'test' argument must be set to either 'student'or 'welch'", call. = FALSE)
   }
   
-  output$t    <- output$m.diff / output$se.diff                    # Calculate the t value
-  output$d    <- output$t * sqrt( 1 / output$n1 + 1 / output$n2 )  # calculate Cohens d (or Hedges g if "welch")
+  output$t    <- output$m.diff / output$se.diff                      # Calculate the t value
+  output$p    <- 2*pt( q = -abs( output$t ), df = 99)
+  output$d    <- output$t * sqrt( 1 / output$n1 + 1 / output$n2 )    # calculate Cohens d (or Hedges g if "welch")
   output$dunb <- ( 1 - ( 3 / (4*output$df - 1) ) ) * output$d        # Calculate d unbiased (from Cumming 2012, p 294, eq 11.13)
   
   return(output) # Return all items stored in 'output'
