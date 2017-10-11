@@ -16,17 +16,17 @@ tFromDescTwo <- function(m1, m2, sd1, sd2, n1, n2, test = "welch") {
     # Calculate se.diff, t and d based on a student t.test
     print("student's t.test is performed and sample sizes are assumed to be equal")
     output$test       <- "student"
-    output$df         <- n1 + n2 - 2  # Calculate degrees of freedom. welch–Satterthwaite equation could be incorporated as well
-    output$sd.pooled  <- sqrt( (sd1^2 + sd2^2) / (n1 + n2 - 2) )
-    output$se.diff    <- sqrt( ((output$sd1^2) / output$n1) + ((output$sd2^2) / output$n2) ) # Calculate the se of the difference
+    output$df         <- n1 + n2 - 2  # Calculate degrees of freedom.
+    output$sd.pooled  <- sqrt( ( ( ( n1 - 1 ) * ( sd1^2 ) ) + ( n2 - 1 ) * ( sd2^2 ) ) / ( ( n1 + n2 ) - 2 ) ) # Calculate the pooled SD
+    output$se.diff    <- output$sd.pooled * sqrt( 1/n1 + 1/n2 ) # Calculate the SE of the difference.
     
   } else if (test == "welch") {  
     # Calculate se.diff, t and d based on a welch t.test, and calculate sd.pooled
     print("welch's t.test is performed and sample sizes are assumed to be unequal")
     output$test       <- "welch"
-    output$df         <- (sd1^2/n1+sd2^2/n2)^2/(((sd1^2/n1)^2/(n1-1))+((sd2^2/n2)^2/(n2-1))) #degrees of freedom for Welch's t-test
-    output$sd.pooled  <- sqrt((((output$n1 - 1) * (output$sd1^2) ) + ( (output$n2 - 1) * (output$sd2^2) )) / output$df) # Calculate the pooled standard deviation
-    output$se.diff    <- sqrt(( (output$sd.pooled^2) / output$n1 ) + ( (output$sd.pooled^2) / output$n2 ))           # Calculate the se of the difference based on sd.pooled
+    output$df         <- ( sd1^2 / n1 + sd2^2 /n2 )^2 / ( ( ( sd1^2 / n1 )^2 / ( n1-1 ) ) + ( ( sd2^2 / n2 )^2 / ( n2 - 1 ) ) ) #degrees of freedom for Welch's t-test
+    output$sd.pooled  <- sqrt( ( sd1^2 + sd2^2 ) / 2 )    # Calculate sd root mean squared for Welch's t-test
+    output$se.diff    <- sqrt( sd1^2 / n1 + sd2^2 / n2 )  # Calculate the se of the difference based on sd.pooled
     
     
   } else {
