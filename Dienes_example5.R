@@ -329,7 +329,7 @@ orig.n1 <- 21
 orig.n2 <- 22
 orig.raw <- abs(orig.m2-orig.m1)
 orig.sdpooled <- sqrt(((orig.n1-1)*orig.sd1^2 + (orig.n2-1)*orig.sd2^2)/(orig.n1+orig.n2-2))
-orig.se <- orig.sdpooled/sqrt(orig.n1+orig.n2)
+orig.se <- sqrt((orig.sd1^2/orig.n1)+(orig.sd2^2/orig.n2)) #standard error of *differences*
 orig.df <- orig.n1+orig.n2-2
 
 # replication study: Johnson, Cheung, & Donnellan (2014)
@@ -342,7 +342,7 @@ rep.n1 <- 58
 rep.n2 <- 68
 rep.raw <- abs(rep.m1-rep.m2)
 rep.sdpooled <- sqrt(((rep.n1-1)*rep.sd1^2 + (rep.n2-1)*rep.sd2^2)/(rep.n1+rep.n2-2))
-rep.se <- rep.sdpooled/sqrt(rep.n1+rep.n2)
+rep.se <- sqrt((rep.sd1^2/rep.n1)+(rep.sd2^2/rep.n2)) #standard error of *differences*
 rep.df <- rep.n1 + rep.n2 -2
 
 # Calculate critical d: smallest d orig. study had the power to detect
@@ -372,8 +372,8 @@ Johnson.1.1.1 <- TOSTtwo.raw.nm(m1=rep.m1,
                                 prior_dist = "halfnormal", 
                                 effect_prior = orig.raw)
 
-##Johnson.1.1.2## TOST: small telescopes; BF: Cauchy
-# Dienes: BF = 0.09 --> !! not replicated: BF = 0.07
+##Johnson.1.1.2## TOST: small telescopes; BF: normal (meaning a t-distribution given df from original study)
+# Dienes: BF = 0.09 --> successfully replicated
 Johnson.1.1.2 <- TOSTtwo.raw.nm(m1=rep.m1, 
                                 m2=rep.m2, 
                                 sd1=rep.sd1, 
@@ -383,7 +383,7 @@ Johnson.1.1.2 <- TOSTtwo.raw.nm(m1=rep.m1,
                                 low_eqbound = -raw.33, 
                                 high_eqbound = raw.33, 
                                 var.equal = TRUE, 
-                                prior_dist = "cauchy", 
+                                prior_dist = "normal", 
                                 effect_prior = orig.raw, 
                                 se_prior = orig.se, 
                                 df_prior = orig.df)
@@ -403,8 +403,8 @@ Johnson.1.2.1 <- TOSTtwo.raw.nm(m1=rep.m1,
                                 prior_dist = "halfnormal", 
                                 effect_prior = orig.raw)
 
-##Johnson.1.2.2## TOST: critical effect; BF: Cauchy
-## Dienes: BF = 0.09 --> !! not replicated: BF = 0.07
+##Johnson.1.2.2## TOST: critical effect; BF: normal (meaning a t-distribution given df from original study)
+## Dienes: BF = 0.09 --> successfully replicated
 Johnson.1.2.2 <- TOSTtwo.raw.nm(m1=rep.m1, 
                                 m2=rep.m2, 
                                 sd1=rep.sd1, 
@@ -414,7 +414,7 @@ Johnson.1.2.2 <- TOSTtwo.raw.nm(m1=rep.m1,
                                 low_eqbound = -raw.crit, 
                                 high_eqbound = raw.crit, 
                                 var.equal = TRUE, 
-                                prior_dist = "cauchy", 
+                                prior_dist = "normal", 
                                 effect_prior = orig.raw,
                                 se_prior = orig.se, 
                                 df_prior = orig.df)
