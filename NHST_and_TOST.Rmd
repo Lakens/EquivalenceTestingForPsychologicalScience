@@ -1,9 +1,9 @@
 ---
 title: "Simulating NHST and TOST"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document: default
+  html_notebook: default
+  pdf_document: default
 editor_options: 
   chunk_output_type: console
 ---
