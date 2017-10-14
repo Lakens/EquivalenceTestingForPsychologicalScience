@@ -9,6 +9,7 @@ editor_options:
 ---
 
 ```{r}
+options(scipen=999)
 library(knitr)
 opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
 ```
@@ -17,13 +18,19 @@ opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
 
 ```{r}
 require(TOSTER)
-n <- 100 #set sample size
+n <- 50 #set sample size
 low_eqbound=-0.3
 high_eqbound=0.3
 sd_true<-1
-m_true<-0.3
-mu<-0.3
+m_true<-0.0
+mu<-0.0
 alpha<-0.05
+
+require("TOSTER")
+n<-powerTOSTone(alpha=alpha, statistical_power=0.8, low_eqbound_d=-low_eqbound, high_eqbound=0.3)
+n<-ceiling(n)
+
+
 nSims <- 1000000 #number of simulated experiments
 pttest<-numeric(nSims) #set up empty container for all simulated p-values
 ptost<-numeric(nSims) #set up empty container for all simulated p-values
@@ -64,6 +71,15 @@ sum(LLlist>=low_eqbound&ULlist<=high_eqbound)/nSims #Same power or Type 1 error,
 #Combine p-values from TOST and NHST
 
 p<-data.frame(ptost,pttest)
+#look only at significant TOST results
+p_sig_TOST<-p[which(ptost<alpha),]
+#Plot the p-values for the NHST t-test, but only those for significant TOT results. 
+hist(p_sig_TOST$pttest, breaks=100)
+
+#How often is a test significant AND equivalent?
+nrow(p[which(ptost<alpha & pttest<alpha),])/nSims
+
+#plot p-values against each other for TOST and NHST
 plot(ptost,pttest)
 
 ```
