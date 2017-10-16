@@ -1,0 +1,59 @@
+---
+title: "NSNEQ_Moon_Example"
+author: "Peder M Isager"
+date: "2017 M10 16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Example of effect that is neither significant nor equivalent
+
+Shih, Pittinsky, and Ambady (1999) conducted a study to investigate whether Asian-American women would perform better on a maths test when primed with their Asian identity. They found a 5% increase in correct answers compared to an un-primed control group of Asian-American women, d = 0.26, Student t(30) = 0.76, p = 0.45, two-sided). A replication by Moon & Roeder (2014) observed a slightly reversed difference between the Asian primed group (N = 53, M = 0.46, SD = 0.17) and the control (N = 48, M = 0.50, SD - 0.18) which was not significant, d = -0.23, Welch t(96.62) = 1.15, p = 0.26, two-sided). Having failed to obtain a significant result, we are left with two alternatives:
+
+1. The data indicate the absence of any effect, and we can accept the null hypothesis.
+2. The data are not sensitive enough to tell us whether an effect is present or abscent. 
+
+In order to distinguish between these two hypotheses, we calculate the TOST. We first need to define our SESOI (and thus, our bounds). Following Simonsohn's (2015) recommendation for replications, we can set this to the effect size that the original study had 33% power to detect. using the "pwr" package in R, we can calculate this in the following way:
+
+``` {r}
+# Calculate effect size that Shih, Pittinsky, and Ambady (1999) had 33% power to detect
+d33 <- pwr::pwr.t2n.test(n1          = 16, 
+                         n2          = 16, 
+                         power       = 0.33, 
+                         sig.level   = 0.05, 
+                         alternative = "two.sided")$d 
+d33
+```
+
+Using the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder (2014), assuming an aplha of 0.05, and using Cohen's d = 0.5549 as equivalence bounds. We find that the TOST is non-significant, t(96.62) = 1.64, p = 0.053. Thus, we cannot reject the possibility of the true effect being larger than our SESOI. 
+
+```{r}
+TOSTER::TOSTtwo(m1  = 0.46, 
+                m2  = 0.50, 
+                sd1 = 0.17, 
+                sd2 = 0.18, 
+                n1  = 53, 
+                n2  = 48, 
+                low_eqbound  = -d33, 
+                high_eqbound = d33, 
+                alpha        = .05)
+
+
+#Jamovi results
+
+Moon_data <- read.csv("Moon_data_asianvscontrol.csv")
+Moon_data_edit <- Moon_data[!Moon_data$identity_salience==3,]
+
+
+TOSTER::dataTOSTtwo(data  = Moon_data_edit, 
+                    deps  = "accuracy", 
+                    group = "identity_salience", 
+                    low_eqbound_d  = -0.5549, 
+                    high_eqbound_d = 0.5549, 
+                    plots     = TRUE, 
+                    var_equal = FALSE)
+```
+
