@@ -2,7 +2,9 @@
 title: "NSNEQ_Moon_Example"
 author: "Peder M Isager"
 date: "2017 M10 16"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -16,44 +18,65 @@ Shih, Pittinsky, and Ambady (1999) conducted a study to investigate whether Asia
 1. The data indicate the absence of any effect, and we can accept the null hypothesis.
 2. The data are not sensitive enough to tell us whether an effect is present or abscent. 
 
-In order to distinguish between these two hypotheses, we calculate the TOST. We first need to define our SESOI (and thus, our bounds). Following Simonsohn's (2015) recommendation for replications, we can set this to the effect size that the original study had 33% power to detect. using the "pwr" package in R, we can calculate this in the following way:
+In order to distinguish between these two hypotheses, we calculate the TOST. We first need to define our SESOI (and thus, our bounds). Let us imagine that we consult a teacher about the test, and discover that that grades for this test are set at every 6.25% increase in correct answers (F = 0% to 6.25% ... A+ = 93.75% to 100%). We can decide that we are only interested in test differences so far as they correspond to at least a 1 gradepoint increase or decrease. We can convert this percentage difference into a corresponding Cohen's d for Moon & Roeder's (2014) data by multiplying 6.25/100 on the pooled standard deviation of the groups. 
+
+
+$$d = \frac{Diff}{SD_{pooled}}$$  
+$$SD_{pooled} = \sqrt \frac{sd_{1}^2 + sd_{2}^2}{2}$$  
+
 
 ``` {r}
-# Calculate effect size that Shih, Pittinsky, and Ambady (1999) had 33% power to detect
-d33 <- pwr::pwr.t2n.test(n1          = 16, 
-                         n2          = 16, 
-                         power       = 0.33, 
-                         sig.level   = 0.05, 
-                         alternative = "two.sided")$d 
-d33
-```
 
-Using the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder (2014), assuming an aplha of 0.05, and using Cohen's d = 0.5549 as equivalence bounds. We find that the TOST is non-significant, t(96.62) = 1.64, p = 0.053. Thus, we cannot reject the possibility of the true effect being larger than our SESOI. 
+sesoi     <- 0.065                        # <- Set the smallest effect size of interest
+sd.pooled <- sqrt((0.17^2 + 0.18^2) / 2)  # <- Calculate the pooled standard deviation
+sesoi.d   <- 0.065 / sd.pooled            # <- Convert the raw SESOI to Cohen's d
+
+print(sesoi.d)
+
+```  
+
+
+Using the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder (2014), assuming an aplha of 0.05, and using +/- the value of `sesoi.d` (`r sesoi.d`) as our equivalence bounds. We find that the TOST is non-significant, t(96.62) = 0.72, p = 0.24. Thus, we cannot reject the possibility that the true effect really is larger than our SESOI.
+
 
 ```{r}
-TOSTER::TOSTtwo(m1  = 0.46, 
-                m2  = 0.50, 
-                sd1 = 0.17, 
-                sd2 = 0.18, 
-                n1  = 53, 
-                n2  = 48, 
-                low_eqbound  = -d33, 
-                high_eqbound = d33, 
+
+# Below are the code with rounded and ~accurate values. We need to decide which to use. The accurate one will correspond better to Jamovi. The rounded one will correspont better to the values given above. I (Peder) prefer the rounded.
+TOSTER::TOSTtwo(m1  = 0.46,
+                m2  = 0.50,
+                sd1 = 0.17,
+                sd2 = 0.18,
+                n1  = 53,
+                n2  = 48,
+                low_eqbound  = -sesoi.d,
+                high_eqbound = sesoi.d,
                 alpha        = .05)
 
+TOSTER::TOSTtwo(m1  = 0.4585130,
+                m2  = 0.4962693,
+                sd1 = 0.1749011,
+                sd2 = 0.1770452,
+                n1  = 53,
+                n2  = 48,
+                low_eqbound  = -sesoi.d,
+                high_eqbound = sesoi.d,
+                alpha        = .05)
+```
 
-#Jamovi results
+
+```{r}
+#Jamovi results - This is just included to illustrate the correspondence between R results and what readers will see in Jamovi
 
 Moon_data <- read.csv("Moon_data_asianvscontrol.csv")
 Moon_data_edit <- Moon_data[!Moon_data$identity_salience==3,]
 
 
-TOSTER::dataTOSTtwo(data  = Moon_data_edit, 
-                    deps  = "accuracy", 
-                    group = "identity_salience", 
-                    low_eqbound_d  = -0.5549, 
-                    high_eqbound_d = 0.5549, 
-                    plots     = TRUE, 
+TOSTER::dataTOSTtwo(data  = Moon_data_edit,
+                    deps  = "accuracy",
+                    group = "identity_salience",
+                    low_eqbound_d  = -sesoi.d,
+                    high_eqbound_d = sesoi.d,
+                    plots     = TRUE,
                     var_equal = FALSE)
 ```
 
