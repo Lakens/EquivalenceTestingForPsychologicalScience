@@ -55,6 +55,10 @@ TOSTtwo.prop <- function(prop1, prop2, n1, n2, low_eqbound, high_eqbound, alpha)
   segments(CI_lb95,0.5,CI_ub95,0.5, lwd=1)
   title(main=paste("Equivalence bounds ",round(low_eqbound,digits=3)," and ",round(high_eqbound,digits=3),"\nProportion Difference = ",round(prop_dif,3)," \n TOST: ", 100*(1-alpha*2),"% CI [",round(CI_lb,digits=3),";",round(CI_ub,digits=3),"] ", TOSToutcome, " \n NHST: ", 100*(1-alpha),"% CI [",round(CI_lb95,digits=3),";",round(CI_ub95,digits=3),"] ", ZTESToutcome, sep=""), cex.main=1)
   
+  message(cat("Using alpha = ",alpha," Fishers exact z-test was ",ZTESToutcome,", z = ",z,", p = ",ztest,sep=""))
+  cat("\n")
+  message(cat("Using alpha = ",alpha," the equivalence test based on Fishers exact z-test was ",TOSToutcome,", z = ",ztost,", p = ",ptost,sep=""))
+  
   TOSTresults<-data.frame(z1,p1,z2,p2)
   colnames(TOSTresults) <- c("z-value 1","p-value 1","z-value 2","p-value 2")
   bound_results<-data.frame(low_eqbound,high_eqbound)
