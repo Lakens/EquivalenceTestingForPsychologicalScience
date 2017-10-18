@@ -10,15 +10,15 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-# Example of effect that is neither significant nor equivalent
+<!-- I don't think we need to say 'Welch's t-test. We might throw in a quick remakr that by default, the TOST package reports Welch's t-test (following Delacre et al., 2017) -->  
+# Example of an effect that is neither statistically significant nor equivalent
 
 Shih, Pittinsky, and Ambady (1999) conducted a study to investigate whether Asian-American women would perform better on a maths test when primed with their Asian identity. They found a 5% increase in correct answers compared to an un-primed control group of Asian-American women, d = 0.26, Student t(30) = 0.76, p = 0.45, two-sided). A replication by Moon & Roeder (2014) observed a slightly reversed difference between the Asian primed group (N = 53, M = 0.46, SD = 0.17) and the control (N = 48, M = 0.50, SD - 0.18) which was not significant, d = -0.23, Welch t(96.62) = 1.15, p = 0.26, two-sided). Having failed to obtain a significant result, we are left with two alternatives:
 
-1. The data indicate the absence of any effect, and we can accept the null hypothesis.
-2. The data are not sensitive enough to tell us whether an effect is present or abscent. 
+1. The data indicate the absence of a meaningful effect, and we can accept the null hypothesis.
+2. The data are not sensitive enough to tell us whether a meaningful effect is present or absent. 
 
-In order to distinguish between these two hypotheses, we calculate the TOST. We first need to define our SESOI (and thus, our bounds). Let us imagine that we consult a teacher about the test, and discover that that grades for this test are set at every 6.25% increase in correct answers (F = 0% to 6.25% ... A+ = 93.75% to 100%). We can decide that we are only interested in test differences so far as they correspond to at least a 1 gradepoint increase or decrease. We can convert this percentage difference into a corresponding Cohen's d for Moon & Roeder's (2014) data by multiplying 6.25/100 on the pooled standard deviation of the groups. 
+In order to distinguish between these two hypotheses, we first need to define a SESOI (and thus, our equivalence bounds). Let us imagine that we consult a teacher about the test, and discover that that grades for this test are set at every 6.25% increase in correct answers (F = 0% to 6.25% ... A+ = 93.75% to 100%). We can decide that we are only interested in test differences so far as they correspond to at least a 1 gradepoint increase or decrease. We can convert this percentage difference into a corresponding Cohen's d for Moon & Roeder's (2014) data by multiplying 6.25/100 on the pooled standard deviation of the groups. 
 
 
 $$d = \frac{Diff}{SD_{pooled}}$$  
@@ -34,7 +34,7 @@ sesoi.d   <- 0.065 / sd.pooled            # <- Convert the raw SESOI to Cohen's 
 print(sesoi.d)
 
 ```  
-
+<!-- So the TOST results below should not be typed in, but calculated in R, like you do with sesoi.d --> 
 
 Using the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder (2014), assuming an aplha of 0.05, and using +/- the value of `sesoi.d` (`r sesoi.d`) as our equivalence bounds. We find that the TOST is non-significant, t(96.62) = 0.72, p = 0.24. Thus, we cannot reject the possibility that the true effect really is larger than our SESOI.
 
