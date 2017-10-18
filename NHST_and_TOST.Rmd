@@ -63,7 +63,7 @@ for(i in 1:nSims){ #for each simulated experiment
 }
 
 #P-value distribution TOST
-hist(ptost, breaks=20, xlim=c(0,1))
+hist(ptost, breaks=500, xlim=c(0,1))
 sum(ptost<0.05)/nSims #Power for TOST
 
 sum(LLlist>=low_eqbound&ULlist<=high_eqbound)/nSims #Same power or Type 1 error, now based on CI
@@ -75,6 +75,11 @@ p<-data.frame(ptost,pttest)
 p_sig_TOST<-p[which(ptost<alpha),]
 #Plot the p-values for the NHST t-test, but only those for significant TOT results. 
 hist(p_sig_TOST$pttest, breaks=100)
+
+#plot p-value distribution for TOST - looks peculiar
+#Dat can only be so far removed from one bound, before it gets closer to the other bound. So p = 0.0000001 often not possible 
+# (need to widen bounds for that, or increase N)
+hist(p_sig_TOST$ptost, breaks=100)
 
 #How often is a test significant AND equivalent?
 nrow(p[which(ptost<alpha & pttest<alpha),])/nSims
