@@ -1,0 +1,28 @@
+This document describes the manipulations that was done to this dataset from and after download from OSF.
+It also contains notes regarding conversion of effect size. 
+
+######################
+Dataset manipulation
+########################################################################################
+
+1. Downloaded dataset from https://osf.io/qy56c/
+
+2. Dataset was transported to JASP and saved as .csv file
+
+3. All variables except "X", "identity_salience", and "accuracy" were removed
+
+4. All rows with data from the female identity priming condition were removed
+
+5. Remaining data was submitted to R and Jamovi for analysis
+
+######################
+Effect size conversion
+########################################################################################
+
+Conversion of raw effect size to Cohen's d was calculated in the following way (in R):
+
+d = 0.0625 * sqrt((sd1^2 + sd2^2) / 2)
+d = 0.3569972
+
+
+OBS! Jamovi does not translate 0.3569972 back to a raw effect of 0.0625, but to a raw effect of 0.068!

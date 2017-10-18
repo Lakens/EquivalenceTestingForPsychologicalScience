@@ -3,80 +3,50 @@ title: "NSNEQ_Moon_Example"
 author: "Peder M Isager"
 date: "2017 M10 16"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-<!-- I don't think we need to say 'Welch's t-test. We might throw in a quick remakr that by default, the TOST package reports Welch's t-test (following Delacre et al., 2017) -->  
 # Example of an effect that is neither statistically significant nor equivalent
 
-Moon & Roeder (2014), replicating Shih, Pittinsky, and Ambady (1999), conducted a study to investigate whether Asian-American women would perform better on a maths test when primed with their Asian identity. They observed a slightly reversed difference between the Asian primed group (N = 53, M = 0.46, SD = 0.17) and the control (N = 48, M = 0.50, SD - 0.18) which was not significant, d = -0.23, Welch t(96.62) = 1.15, p = 0.26, two-sided). Having failed to obtain a significant result, we are left with two alternatives:
+Moon & Roeder (2014), replicating Shih, Pittinsky, and Ambady (1999), conducted a study to investigate whether Asian-American women would perform better on a maths test when primed with their Asian identity. They observed a slightly reversed difference between the Asian primed group (N = 53, M = 0.46, SD = 0.17) and the control (N = 48, M = 0.50, SD - 0.18) which was not significant, d = -0.23, t(96.62) = 1.15, p = 0.26, two-sided). Having failed to obtain a significant result, we are left with two alternatives:
 
 1. The data indicate the absence of a meaningful effect, and we can accept the null hypothesis.
 2. The data are not sensitive enough to tell us whether a meaningful effect is present or absent. 
 
-In order to distinguish between these two hypotheses, we first need to define a SESOI (and thus, our equivalence bounds). Let us imagine that we consult a teacher about the test, and discover that that grades for this test are set at every 6.25% increase in correct answers (F = 0% to 6.25% ... A+ = 93.75% to 100%). We can decide that we are only interested in test differences so far as they correspond to at least a 1 gradepoint increase or decrease. We can convert this percentage difference into a corresponding Cohen's d for Moon & Roeder's (2014) data by multiplying 6.25/100 on the pooled standard deviation of the groups. 
+In order to distinguish between these two hypotheses, we first need to define a SESOI (and thus, our equivalence bounds). Let us imagine that we consult a teacher about the test, and discover that that grades for this test are set at every 6.25% increase in correct answers (F = 0% to 6.25% ... A+ = 93.75% to 100%). We can decide that we are only interested in test differences so far as they correspond to at least a 1 gradepoint increase or decrease. Thus, our SESOI becomes 6.25%, or 0.0625. 
 
-
-$$d = \frac{Diff}{SD_{pooled}}$$  
-$$SD_{pooled} = \sqrt \frac{sd_{1}^2 + sd_{2}^2}{2}$$  
-
-
-``` {r}
-
-sesoi     <- 0.065                        # <- Set the smallest effect size of interest
-sd.pooled <- sqrt((0.17^2 + 0.18^2) / 2)  # <- Calculate the pooled standard deviation
-sesoi.d   <- 0.065 / sd.pooled            # <- Convert the raw SESOI to Cohen's d
-
-print(sesoi.d)
-
-```  
-<!-- So the TOST results below should not be typed in, but calculated in R, like you do with sesoi.d --> 
-
-Using the TOSTtwo function in the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder (2014), assuming an aplha of 0.05, and using +/- the value of `sesoi.d` (`r sesoi.d`) as our equivalence bounds. We find that the TOST is non-significant, t(96.62) = 0.72, p = 0.24. Thus, we cannot reject the possibility that the true effect really is larger than our SESOI.
-
+Using the TOSTtwo function in the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder's (2014) data, assuming an aplha of 0.05, and using +/- the SESOI of 0.0625 as our equivalence bounds. 
 
 ```{r}
 
-# Below are the code with rounded and ~accurate values. We need to decide which to use. The accurate one will correspond better to Jamovi. The rounded one will correspont better to the values given above. I (Peder) prefer the rounded.
-TOSTER::TOSTtwo(m1  = 0.46,
-                m2  = 0.50,
-                sd1 = 0.17,
-                sd2 = 0.18,
-                n1  = 53,
-                n2  = 48,
-                low_eqbound  = -sesoi.d,
-                high_eqbound = sesoi.d,
-                alpha        = .05)
+#  We first load the relevant datafile into R
+moon.data    <- read.csv("NSNEQ_Moon_Example_data.csv") 
 
-TOSTER::TOSTtwo(m1  = 0.4585130,
-                m2  = 0.4962693,
-                sd1 = 0.1749011,
-                sd2 = 0.1770452,
-                n1  = 53,
-                n2  = 48,
-                low_eqbound  = -sesoi.d,
-                high_eqbound = sesoi.d,
-                alpha        = .05)
+#  We then calculate the summary statistics from the data that we need in the TOST calculation below
+mean.asian   <- mean(moon.data$accuracy[moon.data$identity_salience == 1])
+mean.control <- mean(moon.data$accuracy[moon.data$identity_salience == 2])
+sd.asian     <- sd(moon.data$accuracy[moon.data$identity_salience == 1])
+sd.control   <- sd(moon.data$accuracy[moon.data$identity_salience == 2])
+n.asian      <- sum(moon.data$identity_salience == 1)
+n.control    <- sum(moon.data$identity_salience == 2)
+
+#  We can now run the TOST!
+#  Performing the TOST using the 'TOSTtwo.raw' function allows us to specify equivalence bounds in raw values
+tost <- TOSTER::TOSTtwo.raw(m1  = mean.asian,
+                            m2  = mean.control,
+                            sd1 = sd.asian,
+                            sd2 = sd.control,
+                            n1  = n.asian,
+                            n2  = n.control,
+                            low_eqbound  = -0.0625,
+                            high_eqbound =  0.0625,
+                            alpha = .05)
 ```
 
+We find that the TOST is non-significant, t(`r round(tost$TOST_df, 2)`) = `r round(min(abs(c(tost$TOST_t1, tost$TOST_t2))), 2)`, p = `r round(max(tost$TOST_p1, tost$TOST_p2), 2)`. Thus, we cannot reject the possibility that the true effect really is larger than our SESOI.
 
-```{r}
-#Jamovi results - This is just included to illustrate the correspondence between R results and what readers will see in Jamovi
-
-Moon_data <- read.csv("Moon_data_asianvscontrol.csv")
-Moon_data_edit <- Moon_data[!Moon_data$identity_salience==3,]
-
-
-TOSTER::dataTOSTtwo(data  = Moon_data_edit,
-                    deps  = "accuracy",
-                    group = "identity_salience",
-                    low_eqbound_d  = -sesoi.d,
-                    high_eqbound_d = sesoi.d,
-                    plots     = TRUE,
-                    var_equal = FALSE)
-```
 
