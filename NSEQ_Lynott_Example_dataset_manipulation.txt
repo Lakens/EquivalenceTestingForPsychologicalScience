@@ -1,0 +1,19 @@
+This document describes the manipulations that was done to this dataset from and after download from OSF.
+It also contains notes regarding conversion of effect size. 
+
+######################
+Dataset manipulation
+########################################################################################
+
+1. Downloaded dataset from https://osf.io/gjt37/
+
+2. Dataset was transported to JASP and saved as .csv file.
+
+3. All variables except "par_num", "selfish", "packtype", and "include1" was excluded.
+
+4. Subjects excluded by the authors (as indicated by "include1" = 0) were excluded from the dataset.
+
+5. Remaining data was submitted to R and Jamovi for analysis.
+
+
+########################################################################################

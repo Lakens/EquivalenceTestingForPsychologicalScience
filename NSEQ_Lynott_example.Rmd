@@ -1,0 +1,54 @@
+---
+title: "SNEQ_Lynott_example"
+author: "Peder M Isager"
+date: "October 17, 2017"
+output: html_document
+---
+
+# Example of effect that is significant and not equivalent
+
+Lynott et al. (2014) conducted a study to investigate the effect of being exposed to physically warm or cold stimuli on ubsequent judgments related to interpersonal warmth and prosocial behavior (replicating Williams and Bargh, 2008). They observed that 51.2% of participants who received a cold pack (n = 427) opted to receive a reward for themselves, while 57.9% (n = 434) of participants who received a warm pack did the same. Calculating a z-test for the difference between the proportions, this effect is statistically significant (Diff = -0.067, z = -1.98, p = 0.024). Having obtained a significant result, we are left with two alternatives:
+
+1. The difference is small enough that even though it is *statistically* significant, we can consider it *practically* equivalent to zero.
+2. The difference is substantial enough that we cannot rule out that it is also practically significant. 
+
+In order to distinguish between these two hypotheses, we calculate the TOST. We first need to define our SESOI (and thus, our bounds). In this case, it is not really clear what an objective cirterion for the smallest effect size of interest could be. However, since this is a replication, we could decide that we do not care about an effect if the difference is smaller than the smallest effect that the original study could detect. This essentially means that we use the critical z value (~1.96 in a two-tailed test with an alpha of 0.05) as our bounds. To figure out what difference corresponds to a critical z in the original study, we multiply critical z with the standard error:
+
+```{r}
+se     <- sqrt((0.75 * (1 - 0.75)) / 26 + (0.46 * (1 - 0.46)) / 27)  # Calculate the (unpooled) standard error
+crit.z <- qnorm(1 - (0.05 / 2))  # Determine the critical z for a two-tailed test with alpha = 0.05
+
+crit.diff <- crit.z * se  # Convert z to the critical difference
+
+print(crit.diff)
+```
+
+Using the TOSTtwo.prop function in the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Lynott et al. (2014), assuming an aplha of 0.05, and using +/- the value of `crit.diff` (`r crit.diff`) as our equivalence bounds. 
+
+```{r}
+
+download.file(url = "https://raw.githubusercontent.com/Lakens/EquivalenceTestingForPsychologicalScience/master/TOSTtwo.prop.R", destfile = "TOSTtwo.prop.R")
+source(file = "TOSTtwo.prop.R")
+
+#  We first load the data and exclude cases to only include cases that did not meet the authors' exclusion criteria. 
+lynott.data <- read.csv("SNEQ_Lynott_example_data.csv")
+lynott.data <- lynott.data[lynott.data$include1 == 1,]  
+
+#  We then calculate the summary statistics from the data that we need in the TOST calculation below
+n.hot        <- sum(lynott.data$packtype == 1)
+n.cold       <- sum(lynott.data$packtype == 0)
+selfish.hot  <- sum(lynott.data$selfish[lynott.data$packtype == 1] == 1, na.rm = TRUE) / n.hot
+selfish.cold <- sum(lynott.data$selfish[lynott.data$packtype == 0] == 1, na.rm = TRUE) / n.cold
+  
+#  We can now run the TOST!
+tost <- TOSTtwo.prop(prop1 = selfish.hot, 
+                     prop2 = selfish.cold, 
+                     n1    = n.hot, 
+                     n2    = n.cold, 
+                     low_eqbound  = -crit.diff, 
+                     high_eqbound = crit.diff, 
+                     alpha = 0.05)
+
+```
+
+We find that the TOST is `r tost$TOST_outcome`, z = `r round(min(abs(c(tost$TOST_z1, tost$TOST_z2))), 2)`, p `r ifelse(round(max(abs(c(tost$TOST_p1, tost$TOST_p2))), 2) >= 0.01, paste("=", round(max(abs(c(tost$TOST_p1), tost$TOST_p2))), 2), "< 0.01")`. Thus, in addition to beinn statistically different from zero, we cannot reject the possibility that the true difference really is larger than our SESOI.
