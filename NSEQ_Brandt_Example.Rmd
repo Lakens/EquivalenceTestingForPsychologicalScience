@@ -24,10 +24,10 @@ orig.N <- 40 #group size unknown, therefore equal n assumed
 orig.df <- orig.N-2
 
 # replication study: Brandt et al., study 1
-rep.m1 <- 4.79
-rep.m2 <- 4.66
-rep.sd1 <- 1.09
-rep.sd2 <- 1.19
+rep.m1 <- 4.7857
+rep.m2 <- 4.6569
+rep.sd1 <- 1.0897
+rep.sd2 <- 1.1895
 rep.n1 <- 49
 rep.n2 <- 51
 rep.t <- 0.56
