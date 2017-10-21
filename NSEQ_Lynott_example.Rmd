@@ -41,10 +41,10 @@ selfish.hot  <- sum(lynott.data$selfish[lynott.data$packtype == 1] == 1, na.rm =
 selfish.cold <- sum(lynott.data$selfish[lynott.data$packtype == 0] == 1, na.rm = TRUE) / n.cold
   
 #  We can now run the TOST!
-tost <- TOSTtwo.prop(prop1 = selfish.hot, 
-                     prop2 = selfish.cold, 
-                     n1    = n.hot, 
-                     n2    = n.cold, 
+tost <- TOSTtwo.prop(prop1 = selfish.cold, 
+                     prop2 = selfish.hot, 
+                     n1    = n.cold, 
+                     n2    = n.hot, 
                      low_eqbound  = -crit.diff, 
                      high_eqbound = crit.diff, 
                      alpha = 0.05)
