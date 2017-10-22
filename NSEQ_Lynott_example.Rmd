@@ -31,7 +31,7 @@ download.file(url = "https://raw.githubusercontent.com/Lakens/EquivalenceTesting
 source(file = "TOSTtwo.prop.R")
 
 #  We first load the data and exclude cases to only include cases that did not meet the authors' exclusion criteria. 
-lynott.data <- read.csv("SNEQ_Lynott_example_data.csv")
+lynott.data <- read.csv("NSEQ_Lynott_example_data.csv")
 lynott.data <- lynott.data[lynott.data$include1 == 1,]  
 
 #  We then calculate the summary statistics from the data that we need in the TOST calculation below
