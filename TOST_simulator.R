@@ -3,7 +3,8 @@
 
 library(TOSTER)
 library(purrr)
-source("../../TOSTER/R/TOSTtwo.R") #  Source modified TOSTtwo from pederisager Fork in order to get necessary values from TOST
+download.file(url = "https://raw.githubusercontent.com/pederisager/TOSTER/TOST-modification/R/TOSTtwo.R", destfile = "TOSTtwo.prop.R")
+source(file = "TOSTtwo.prop.R") #  Source modified TOSTtwo from pederisager Fork in order to get necessary values from TOST
 library(ggplot2)
 
 sims <- list()
@@ -151,7 +152,7 @@ abline(v=0.05, lty=2)
 abline(h = 0.05, lty=2)
 
 
-#  Plot subset of sims in forestplot 
+##  Plot subset of sims in forestplot 
 # es <- diff
 # l_eqb <- map_dbl(sims, "low_eqbound")
 # u_eqb <- map_dbl(sims, "high_eqbound")
