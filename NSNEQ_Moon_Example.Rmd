@@ -21,7 +21,7 @@ In order to distinguish between these two hypotheses, we first need to define a 
 
 Using the TOSTtwo function in the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder's (2014) data, assuming an aplha of 0.05, and using +/- the SESOI of 0.0625 as our equivalence bounds. 
 
-```{r}
+```{r echo=FALSE}
 
 #  We first load the relevant datafile into R
 moon.data    <- read.csv("NSNEQ_Moon_Example_data.csv") 
@@ -47,6 +47,6 @@ tost <- TOSTER::TOSTtwo.raw(m1  = mean.asian,
                             alpha = .05)
 ```
 
-We find that the TOST is non-significant, t(`r round(tost$TOST_df, 2)`) = `r round(min(abs(c(tost$TOST_t1, tost$TOST_t2))), 2)`, p = `r round(max(tost$TOST_p1, tost$TOST_p2), 2)`. Thus, we cannot reject the possibility that the true effect really is larger than our SESOI.
+We find that the TOST is non-significant, t(`r round(tost$TOST_df, 2)`) = `r round(min(abs(c(tost$TOST_t1, tost$TOST_t2))), 2)`, p = `r round(max(tost$TOST_p1, tost$TOST_p2), 2)`. Thus, we cannot reject the possibility that the true effect really is larger than our SESOI.[^footnote]
 
-
+[^footnote]: In this example, the bounds of the TOST was set based on a raw effect of 6.25%. We could have converted this raw effect into a standardized effect (Cohen's d) for the current sample, and we would have gotten the exact same result, only then in Cohen's d (equivalence bounds = +/- `r round(0.0625 / sqrt((sd.asian^2 + sd.control^2) / 2), 2)`). Since this is a replication of a previous study, we could also have chosen calculate the Cohen's d that corresponds to the raw SESOI in the *original* study, and used this as the bounds for the replication. Now we would no longer be answering a question about a raw effect independent of the samples. Instead, we are asking whether we in the replication can reject standardized effects larger than a certain standardized effect in the original study. Since the standard deviations of the original study were only slightly higher than in the replication in this case, Cohen's d, and thus the bounds, would also be only sligthly smaller (bounds = +/- `r round(0.0625 / sqrt((0.17^2 + 0.20^2) / 2), 2)`). As standard deviations of the original study compared to the replication becomes larger, the bounds become more narrow.
