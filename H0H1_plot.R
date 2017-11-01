@@ -8,7 +8,8 @@ df <- data.frame()
 
 baseplot <-   ggplot(df) +
   scale_y_continuous(limits = c(0,plotheight+0.02), breaks=NULL) + # no y-axis will be displayed
-  scale_x_continuous(limits = c(-0.85,0.85), breaks=c(-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8), name = "effect size (d)") +
+  scale_x_continuous(limits = c(-0.85,0.85), breaks=c(-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8), 
+                     labels=c("", "", "", "", "0", "", "", "", ""), name = "effect size") +
   theme_classic() +
   theme(plot.title = element_text(size = rel(1.3), face = "bold"), #font size & appearance for plot titles
         axis.title.y = element_blank(), #remove title of y-axis
