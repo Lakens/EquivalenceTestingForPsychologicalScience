@@ -19,7 +19,7 @@ Moon & Roeder (2014), replicating Shih, Pittinsky, and Ambady (1999), conducted 
 
 In order to distinguish between these two hypotheses, we first need to define a SESOI (and thus, our equivalence bounds). Let us imagine that we consult a teacher about the test, and discover that that grades for this test are set at every 6.25% increase in correct answers (F = 0% to 6.25% ... A+ = 93.75% to 100%). We can decide that we are only interested in test differences so far as they correspond to at least a 1 gradepoint increase or decrease. Thus, our SESOI becomes 6.25%, or 0.0625. 
 
-Using the TOSTtwo function in the TOSTER package in R, we can then calculate the TOST by insterting the summary statistics from Moon & Roeder's (2014) data, assuming an aplha of 0.05, and using +/- the SESOI of 0.0625 as our equivalence bounds. 
+We then calculate the TOST for a two-sample Welch’s t-test, assuming an alpha of 0.05 (two-sided), and using +/- the SESOI of 0.0625 as our equivalence bounds.
 
 ```{r echo=FALSE}
 
