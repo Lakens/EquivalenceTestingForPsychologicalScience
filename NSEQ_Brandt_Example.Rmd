@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r include = FALSE}
 library(TOSTER)
+library(pwr)
 
 # original study: Banerjee et al., study 1
 orig.m1 <- 4.71
@@ -35,23 +36,22 @@ rep.p <- .574
 rep.df <- rep.n1 + rep.n2 - 2
 rep.d <- 0.11
 
-# Calculate critical effect (d): smallest effect orig. study had the power to detect
-t.crit = qt(1-.05/2, (orig.N-2))
-d.crit = t.crit*sqrt((1/(orig.N/2)) + 1/(orig.N/2))
 
-Brandt <- TOSTtwo(m1=rep.m1, m2=rep.m2, sd1=rep.sd1, sd2 = rep.sd2, n1 = rep.n1, n2=rep.n2, low_eqbound_d = -d.crit, high_eqbound_d = d.crit, var.equal = FALSE)
+# Calculate small telescopes effect (d) effect orig. study had 33% power to detect
+d.33 <- (pwr.t.test(n = orig.N/2, d = NULL, sig.level = 0.05, power = 0.33, type = "two.sample", alternative = "two.sided"))$d
+
+Brandt <- TOSTtwo(m1=rep.m1, m2=rep.m2, sd1=rep.sd1, sd2 = rep.sd2, n1 = rep.n1, n2=rep.n2, low_eqbound_d = -d.33, high_eqbound_d = d.33, var.equal = FALSE)
 ```
 
 Another justifiable choice we would like to propose is to use the smallest observed effect size that could have been statistically significant in the original study. Based only on the alpha level and the sample size, we can calculate the criticial test value (e.g., $t$, $F$, $Z$). This critical test value can be transformed to a standardized effect size (e.g., $d_{crit} = t_{crit} \sqrt { \frac { 1} { n _ { 1} } + \frac { 1} { n _ { 2} } }$), which can thus be interpreted as a *critical effect size*[^1]. Observed effect sizes smaller than the critical effect size would not have been statistically significant in the original study. Based on this we can guess that the authors were not interested in effects smaller than this critical effect size, and thus use it as the SESOI. An equivalence test with these bounds can reject all observed effect sizes that the original study had the power to detect. 
 
-As an example, Banerjee, Chatterjee, & Sinha (2012) reported that participants who had been asked to describe an unethical deed from their past judged the room to be darker than participants who had been asked to describe an ethical deed ($M_{unethical}= `r orig.m1`$, ${SD}_{unethical}= `r orig.sd1`$, $M_{ethical}=`r orig.m2`$, ${SD}_{ethical}=`r orig.sd2`$, $t(`r orig.df`)= `r orig.t`$, $p= `r orig.p`$, $d= `r orig.d`$). A close replication by Brandt, IJzerman, & Blanken (2014) found no significant effect ($t(`r rep.df`)=`r rep.t`$, $p=`r rep.p`$, $d=`r rep.d`$).  The smallest effect the original study could have detected is $d_{crit}= `r round(t.crit, 2)` \sqrt { \frac { 1} {`r orig.N/2`} + \frac { 1} {`r orig.N/2`} }=`r round(d.crit, 2)`$. Using this as our SESOI for a TOST with Welch's t-test for independent samples --- resulting in equivalence bounds of ${\Delta}_L=`r round(-d.crit, 2)`$ and ${\Delta}_U=`r round(d.crit, 2)`$ --- we indeed find that the effect reported by the replication study is equivalent, $t(`r round(Brandt$TOST_df, 2)`)=`r round(min(Brandt$TOST_t1, Brandt$TOST_t2), 2)`$, $p=`r round(max(Brandt$TOST_p1, Brandt$TOST_p2), 3)`$.
 
 
-```{r, fig.width=6}
-TOSTtwo(m1=rep.m1, m2=rep.m2, sd1=rep.sd1, sd2 = rep.sd2, n1 = rep.n1, n2=rep.n2, low_eqbound_d = -d.crit, high_eqbound_d = d.crit, var.equal = FALSE)
-```
 
-[^1]: This will typically, although not always, correspond to the effect size the study had $50\%$ power to detect. This procedure will thus result in effect sizes that are substantially larger than the ones obtained using the small telescopes approach, which gives the effect size a study had $33\%$ power to detect.
+
+Banerjee, Chatterjee, & Sinha (2012) reported that participants who had been asked to describe an unethical deed from their past judged the room to be darker than participants who had been asked to describe an ethical deed ($M_{unethical}= `r orig.m1`$, ${SD}_{unethical}= `r orig.sd1`$, $M_{ethical}=`r orig.m2`$, ${SD}_{ethical}=`r orig.sd2`$, $t(`r orig.df`)= `r orig.t`$, $p= `r orig.p`$, $d= `r orig.d`$). A close replication by Brandt, IJzerman, & Blanken (2014) found no significant effect ($t(`r rep.df`)=`r rep.t`$, $p=`r rep.p`$, $d=`r rep.d`$). Following the small telescopes approach, we can calculate the effect size the original study had $33\%$ power to detect --- $d = `r round(d.33, 2)`$ --- and use this as our SESOI. If we run a TOST with Welch's *t*-test for independent samples and equivalence bounds of ${\Delta}_L=`r round(-d.33, 2)`$ and ${\Delta}_U=`r round(d.33, 2)`$, we indeed find that the effect reported by the replication study is statistically equivalent, $t(`r round(Brandt$TOST_df, 2)`)=`r round(min(Brandt$TOST_t1, Brandt$TOST_t2), 2)`$, $p=`r round(max(Brandt$TOST_p1, Brandt$TOST_p2), 3)`$.
+
+
 
 
 
