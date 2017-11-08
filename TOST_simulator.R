@@ -13,12 +13,12 @@ sims <- list()
 # Group 1 parameters
 mean1 <- 0    # The mean effect
 std1  <- 10   # The standard deviation
-n1    <- 10   # The number of subjects in each group
+# make n random... n1    <- 10   # The number of subjects in each group
 
 # Group 2 parameters
 mean2 <- 0    # The mean effect
 std2  <- 10   # The standard deviation
-n2    <- 10   # The number of subjects in each group
+# make n random... n2    <- 10   # The number of subjects in each group
 
 # TOST
 alpha <- 0.05
@@ -28,13 +28,16 @@ tails <- 2 # 1 = one-tailed, 2 = two-tailed
 # Set simulation parameters
 
 nsims <- 10000  # Number of simulations
-bound.criterion <- "tost.current.power"  # Choose between "crit.val", "benchmark", "d33", "current.power", "tost.current.power"
+bound.criterion <- "specific.raw"  # Choose between "crit.val", "specific", "d33", "current.power", "tost.current.power"
 
 #  When using citerion "crit.val", the critical t value based on the parameters of the current sample are used as bounds
 crit.t <- qt(p = 1-(alpha/tails), df = n1+n2-2) # Calculate critical t
 
-#  When using criterion "benchmark", bounds = benhmark
-benchmark <- 0.5
+#  When using criterion "specific", bounds = specific
+specific <- 0.9
+
+#  When using criterion "specific.raw", bounds = specific.raw, recalculated to d for each test
+specific.raw <- 3
 
 #  When using criterion "d33", small telescops is applied, group n of previous study is random 10-100, and bounds are set to effect that previous study had tlscop.pwr power to detect. 
 tlscop.pwr <- 0.33
@@ -79,7 +82,7 @@ for (sim in 1:nsims) {
                            var.equal = ifelse(test = std1 == std2, yes = TRUE, no = FALSE), #  sets equal variance assumption based on whether the standard deviation in the populations match.
                            side.effects = FALSE)
     
-  } else if (bound.criterion == "benchmark") {  # Run TOST with benchmark value
+  } else if (bound.criterion == "specific") {  # Run TOST with specific value
     
     sims[[sim]] <- TOSTtwo(m1 = m1, 
                            m2 = m2, 
@@ -87,8 +90,24 @@ for (sim in 1:nsims) {
                            sd2 = sd2, 
                            n1 = n1, 
                            n2 = n2, 
-                           low_eqbound_d = -benchmark, 
-                           high_eqbound_d = benchmark, 
+                           low_eqbound_d = -specific, 
+                           high_eqbound_d = specific, 
+                           alpha = alpha, 
+                           var.equal = ifelse(test = std1 == std2, yes = TRUE, no = FALSE), #  sets equal variance assumption based on whether the standard deviation in the populations match.
+                           side.effects = FALSE)
+    
+  } else if (bound.criterion == "specific.raw") {  # Run TOST with specific raw difference value
+    
+    specific.d <- specific.raw / sqrt((sd1^2 + sd2^2) / 2)
+    
+    sims[[sim]] <- TOSTtwo(m1 = m1, 
+                           m2 = m2, 
+                           sd1 = sd1, 
+                           sd2 = sd2, 
+                           n1 = n1, 
+                           n2 = n2, 
+                           low_eqbound_d = -specific.d, 
+                           high_eqbound_d = specific.d, 
                            alpha = alpha, 
                            var.equal = ifelse(test = std1 == std2, yes = TRUE, no = FALSE), #  sets equal variance assumption based on whether the standard deviation in the populations match.
                            side.effects = FALSE)

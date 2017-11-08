@@ -15,6 +15,7 @@ The authors study how hematologic properties of blood changes during long-durati
 
 Equivalence bounds were set based on the within-person coefficient of variation for each hematologic parameter in a group of 852 non-institutionalized subjects, reported by Lacher et al. (2012). 
 
+The TOST spreadsheet was used
 
 ## Mirabella et al. (2017)
 
@@ -63,6 +64,7 @@ The authors studied the relationship between bodily assumetries and indicators o
 
 Equivalence bounds were based on mean effects from previous meta-analyses of similar effects. 
 
+TOSTER package in R was used
 
 ## Matheson et al (2017)
 

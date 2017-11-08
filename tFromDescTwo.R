@@ -38,7 +38,7 @@ tFromDescTwo <- function(m1, m2, sd1, sd2, n1, n2, test = "welch") {
   output$d    <- output$t * sqrt( 1 / output$n1 + 1 / output$n2 )    # calculate Cohens d (or Hedges g if "welch")
   output$dunb <- ( 1 - ( 3 / (4*output$df - 1) ) ) * output$d        # Calculate d unbiased (from Cumming 2012, p 294, eq 11.13)
   
-  return(output) # Return all items stored in 'output'
+  return(output) # Return all desired output statistics stored in 'output'
 }
 
 # Test
