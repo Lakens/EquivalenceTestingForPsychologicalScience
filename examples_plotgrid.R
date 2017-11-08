@@ -118,4 +118,4 @@ lay <- rbind(c(1,2,5),
              c(3,4,5)) # Define the figure layout. Think of the c()s as a grid/ Plot 1-5 will be alloted the relative space in the grid.
 
 
-grid.arrange(brandtplot, moonplot, lynottplot, kahaneplot, metaplot, layout_matrix = lay)
+example.grid <- grid.arrange(brandtplot, moonplot, lynottplot, kahaneplot, metaplot, layout_matrix = lay)
