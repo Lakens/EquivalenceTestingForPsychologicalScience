@@ -13,7 +13,7 @@ library("TOSTER")
 plot.scaler <- 1.8
 nhst.size <- 0.5
 tost.size <- 1
-point.size <- 2
+point.size <- 1.5
 
 ####  Base plot ----------------------------------------
 
@@ -22,9 +22,11 @@ baseplot <- ggplot(data.frame()) +
   coord_flip() + # flip coordinates (puts labels on y axis)
   theme_classic(base_size = 10) + # use a white background
   geom_hline(yintercept=0, lty=1) +
-  theme(axis.title.y = element_blank(),
+  theme(plot.title = element_text(size = rel(1), face = "bold"),
+        axis.title.y = element_blank(),
         axis.text.y = element_blank(),
-        axis.ticks.y = element_blank())
+        axis.ticks.y = element_blank(),
+        axis.title.x = element_text(size=rel(0.7), lineheight = 0.5))
 
 ####  Meta analysis ----------------------------------------
 
@@ -54,12 +56,14 @@ metaplot <- ggplot(data=df, aes(x=label, y=es, ymin=li95, ymax=ui95)) +
   geom_hline(yintercept=sesoi, lty=2) +
   geom_hline(yintercept=0, lty=1) +
   coord_flip() +  # flip coordinates (puts labels on y axis)
-  labs(title = "B - Example 2 (Hyde)", y = "Effect (Z)") +
+  labs(title = "B: Example 2 (Hyde et al.)", y = "Effect (Z)") +
   ylim(c(-sesoi*plot.scaler, sesoi*plot.scaler)) +
   theme_classic() + # use a white background
-  theme(axis.title.y = element_blank(),
+  theme(plot.title = element_text(size = rel(1), face = "bold"),
+        axis.title.y = element_blank(),
         axis.text.y = element_blank(),
-        axis.ticks.y = element_blank()) # use a white background
+        axis.ticks.y = element_blank(),
+        axis.title.x = element_text(size=rel(0.7), lineheight = 0.5))
 
 
 ####  Brandt ----------------------------------------
@@ -71,7 +75,7 @@ brandtplot = baseplot +
   annotate(geom = "pointrange", x = 0.5, y = Brandt$diff, ymin = Brandt$LL_CI_TOST, ymax = Brandt$UL_CI_TOST, size = tost.size, fatten = point.size) +
   geom_hline(yintercept=Brandt$low_eqbound, lty=2) +
   geom_hline(yintercept=Brandt$high_eqbound, lty=2) +
-  labs(title = "A - Example 1 (Brandt)", y = "Effect (mean difference)") +
+  labs(title = "A: Example 1 (Brandt et al.)", y = "Effect (mean difference)") +
   ylim(c(Brandt$low_eqbound*plot.scaler, Brandt$high_eqbound*plot.scaler))
 
 #### Moon ----------------------------------------
@@ -83,7 +87,7 @@ moonplot = baseplot +
   annotate(geom = "pointrange", x = 0.5, y = Moon$diff, ymin = Moon$LL_CI_TOST, ymax = Moon$UL_CI_TOST, size = tost.size, fatten = point.size) +
   geom_hline(yintercept=Moon$low_eqbound, lty=2) +
   geom_hline(yintercept=Moon$high_eqbound, lty=2) +
-  labs(title = "C - Example 3 (Moon)", y = "Effect (mean difference)") +
+  labs(title = "C: Example 3 (Moon et al.)", y = "Effect (mean difference)") +
   ylim(c(Moon$low_eqbound*plot.scaler, Moon$high_eqbound*plot.scaler))
 
 #### Lynott ----------------------------------------
@@ -98,7 +102,7 @@ lynottplot = baseplot +
   geom_hline(yintercept=Lynott$low_eqbound, lty=2) +
   geom_hline(yintercept=Lynott$high_eqbound, lty=2) +
   ylim(c(Lynott$low_eqbound*plot.scaler, Lynott$high_eqbound*plot.scaler)) +
-  labs(title = "D - Example 4 (Lynott)", y = "Effect (proportion difference)")
+  labs(title = "D: Example 4 (Lynott et al.)", y = "Effect (proportion difference)")
 
 #### Kahane ----------------------------------------
 
@@ -110,7 +114,7 @@ kahaneplot = baseplot +
   geom_hline(yintercept=Kahane$low_eqbound_r, lty=2) +
   geom_hline(yintercept=Kahane$high_eqbound_r, lty=2) +
   ylim(c(Kahane$low_eqbound*plot.scaler, Kahane$high_eqbound*plot.scaler)) +
-  labs(title = "E - Example 5 (Kahane)", y = "Effect (correlation)")
+  labs(title = "E: Example 5 (Kahane et al.)", y = "Effect (pearson correlation)")
 
 ####  Place plots in grid ----------------------------------------
 

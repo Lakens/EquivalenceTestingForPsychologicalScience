@@ -148,7 +148,7 @@ Banerjee, Chatterjee, & Sinha (2012) reported that `r orig.N` participants who h
 
 ## Example 2: Statistically Equivalent and Statistically Different
 
-```{r, fig.width=6}
+```{r, include=FALSE}
 source("SEQ_Hyde_Example.R")
 ```
 Hyde, Lindberg, Linn, Ellis, and Williams (2008) report that effect sizes for gender differences in mathematics tests across the 7 million students in the US represent trivial differences, where the authors specify a trivial difference as an effect size smaller than d = 0.1. For example, in grade 3 the difference is d = 0.04, with a standard error of 0.002. When we perform equivalence tests on the meta-analytic effect sizes of IQ difference for grades 2 to 11 (using an alpha level of 0.005 to correct for multiple comparisons), using equivalence bounds of d = -0.1 and d = 0.1, we see that indeed, all effect size estimates are measured with such high precision, we can conclude that they fall within the equivalence bound of d = -0.1 and d = 0.1, and can be considered trivially small, according to the bounds set by the authors (figure 2B). However, note that all of the effects are also statistically different from zero, as one might expect when there is no random assignment to conditions, and samples sizes are huge. This is one way in which the use of equivalence tests improve hypothesis testing procedures in science, by distinguishing between statistical significance and practical significance. 
