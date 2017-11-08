@@ -1,0 +1,49 @@
+---
+title: "Kahane et al. example: correlation, power-based bounds"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Equivalence bounds based on power
+
+```{r include = FALSE}
+library(TOSTER)
+library(pwr)
+
+## Kahane, Everett, Earp, Farias, & Savulescu (2015)
+##
+## Study 4, 5.2.1. ii., p. 203: "There  was  no  relationship  between  perceived wrongness in 
+## personal dilemmas and in the ‘greater good’ dilemmas (r = -.04, p = .53): that is, people
+## who were more ‘utilitarian’ in the personal dilemmas were not more likely to be more truly
+## utilitarian in the other dilemmas, and vice versa. This lack of relationship held even when
+## controlling for primary psychopathy in a partial second order correlation (r = -.07, p = .32)."
+  
+Kahane.data <- read.csv("Kahane_etal_study4_cleaned.csv", header = TRUE, sep = ",")
+Kahane.data <- as.data.frame(Kahane.data)
+
+# sample size
+Kahane.N <- min(sum(!is.na(Kahane.data$ClassicSacrificialDilemmas)), sum(!is.na(Kahane.data$GreaterGoodDilemmas)))
+
+# correlation b/w perceived wrongness in personal dilemmas and 'greater good' dilemmas
+Kahane.r.GG <- cor.test(Kahane.data$ClassicSacrificialDilemmas, Kahane.data$GreaterGoodDilemmas, method = "pearson")$estimate
+Kahane.p <- cor.test(Kahane.data$ClassicSacrificialDilemmas, Kahane.data$GreaterGoodDilemmas, method = "pearson")$p.value
+
+# correlation the study had 80% power to detect
+Kahane.r.80 <- (pwr.r.test(n = Kahane.N, r = NULL, sig.level = 0.05, power = 0.8, alternative = "two.sided"))$r
+
+# TOST with bounds set to the correlation the study had 80% power to detect
+Kahane <- TOSTr(n = Kahane.N, r = Kahane.r.GG, low_eqbound_r = -Kahane.r.80, high_eqbound_r = Kahane.r.80, alpha = 0.05)
+```
+
+
+In a paper published in 2015, Kahane and colleagues investigate moral dilemma vignettes in which participants have to decide whether or not they would sacrifice one person's life to save several other lives, or judge how morally admissible such actions are. Traditionally, greater endorsement for sacrificing a life to save others has been interpreted as a more "utilitarian" moral orientation, i.e. a stronger concern for the greater good (in total, fewer people lose their lives). In a number of studies, Kahane et al. contest this interpretation, for example by showing that greater endorsement for such "utilitarian" choices correlates with sub-clinical psychopathy, and, crucially, by comparing the traditionally used vignettes with a set of new ones that pit partial motivations against an impartial concern for the greater good (e.g. buying a new mobile phone vs. donating the money to save lives in a distant country, study 4). 
+
+Kahane et al. find no significant correlation between the perceived wrongness of a utilitarian choice in the classical sacrificial dilemmas and the new "greater good" dilemmas, $r(`r Kahane.N-2`) = `r round(Kahane.r.GG, 2)`$, $p = `r round(Kahane.p, 3)`$ ($N = `r Kahane.N`$[^footnote]). They conclude that the classical vignettes fail to capture "true"" utilitarianism, but also grant that this conclusion is dependent on the power of their study and that better-powered future studies might overturn their verdict: "Thus, while we cannot rule out the possibility that such an association could emerge in future studies using an even larger number of subjects or different measures, we submit that, in light of the present results, a robust association between ‘utilitarian’ judgment and genuine concern for the greater good seems extremely unlikely." (p. 206). 
+This inference --- that the result would be surprising if there was a true effect of a size the study could have detected --- can be formalized with an equivalence test for correlations and bounds set to an effect size the study had reasonable power to detect: With `r Kahane.N` participants, the study had $80\%$ power to detect effects of $r = `r round(Kahane.r.80, 2)`$. Given bounds of $\Delta_{L} = `r -round(Kahane.r.80, 2)`$ and $\Delta_{U} = `r round(Kahane.r.80, 2)`$, we find that the result is indeed statistically equivalent, $r(`r Kahane.N-2`) = `r round(Kahane.r.GG, 2)`$, $p = `r round(max(Kahane$TOST_p1, Kahane$TOST_p2), 3)`$. This means that values smaller than $r = `r -round(Kahane.r.80, 2)`$ and larger than $r = `r round(Kahane.r.80, 2)`$ can be rejected at an alpha level of $5\%$ and used as an initial benchmark which future studies could challenge using larger samples and more narrow equivalence bounds.
+
+
+[^footnote]: Study 4 in Kahane et al. (2015) had a final sample size of $N = `r nrow(Kahane.data)`$, but due to missing data in `r sum(is.na(Kahane.data))` case, the correlation reported here is based on a sample of only $N = `r Kahane.N`$.
+
