@@ -50,15 +50,15 @@ sesoi <- 0.1
 
 metaplot <- ggplot(data=df, aes(x=label, y=es, ymin=li95, ymax=ui95)) +
   scale_x_discrete(breaks=NULL) +
-  geom_pointrange(size = 0.6, fatten = point.size) + 
-  geom_pointrange(aes(ymin=li90, ymax=ui90), size = 0.5, fatten = point.size) +
+  geom_pointrange(size = nhst.size, fatten = point.size/2) + 
+  geom_pointrange(aes(ymin=li90, ymax=ui90), size = tost.size, fatten = point.size/2) +
   geom_hline(yintercept=-sesoi, lty=2) +
   geom_hline(yintercept=sesoi, lty=2) +
   geom_hline(yintercept=0, lty=1) +
   coord_flip() +  # flip coordinates (puts labels on y axis)
   labs(title = "B: Example 2 (Hyde et al.)", y = "Effect (Z)") +
   ylim(c(-sesoi*plot.scaler, sesoi*plot.scaler)) +
-  theme_classic() + # use a white background
+  theme_classic(base_size = 10) + # use a white background
   theme(plot.title = element_text(size = rel(1), face = "bold"),
         axis.title.y = element_blank(),
         axis.text.y = element_blank(),
