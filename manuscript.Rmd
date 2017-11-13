@@ -151,7 +151,7 @@ plot(example.grid)
 ## Example 1: Statistically Equivalent and Not Statistically Different
 
 ```{r include = FALSE}
-source("NSEQ_Brandt_Example.R")
+source("Example1_Brandt-et-al_study1.R")
 
 ```
 
@@ -160,14 +160,14 @@ source("NSEQ_Brandt_Example.R")
 ## Example 2: Statistically Equivalent and Statistically Different
 
 ```{r, include=FALSE}
-source("SEQ_Hyde_Example.R")
+source("Example2_Hyde-et-al.R")
 ```
 
 @Hyde2008 report that effect sizes for gender differences in mathematics tests across the 7 million students in the US represent trivial differences, where the authors specify a trivial difference as an effect size smaller than $d = 0.1$. For example, in grade 3 the difference is $d = 0.04$, with a standard error of 0.002. When we perform equivalence tests on the meta-analytic effect sizes of IQ difference for grades 2 to 11 (using an alpha level of 0.005 to correct for multiple comparisons), using equivalence bounds of $d = -0.1$ and $d = 0.1$, we see that indeed, all effect size estimates are measured with such high precision, we can conclude that they fall within the equivalence bound of $d = -0.1$ and $d = 0.1$, and can be considered trivially small, according to the bounds set by the authors (figure 2B). However, note that all of the effects are also statistically different from zero, as one might expect when there is no random assignment to conditions, and samples sizes are huge. This is one way in which the use of equivalence tests improve hypothesis testing procedures in science, by distinguishing between statistical significance and practical significance. 
 
 ## Example 3: Not Statistically Equivalent and Not Statistically Different
 ```{r include=FALSE}
-source("NSNEQ_Moon_Example.R")
+source("Example3_MoonRoeder.R")
 ```
 
 <<<<<<< HEAD
@@ -192,7 +192,7 @@ We find that the TOST is non-significant, t(`r printnum(Moon$TOST_df)`) = `r pri
 
 ## Example 4: Statistically Inferior and Not Statistically Different
 ```{r include=FALSE}
-source("NSEQ_Lynott_example.R")
+source("Example4_Lynott-et-al.R")
 ```
 
 <<<<<<< HEAD
@@ -210,7 +210,7 @@ We find that the test against $\Delta_{U}$ is `r ifelse(Lynott$TOST_p2 < Lynott$
 
 ## Example 5: Statistically Equivalent and not Statistically Different
 ```{r include = FALSE}
-source("corr_Kahane_Example.R")
+source("Example5_Kahane-et-al-study4.R")
 ```
 
 In a paper published in [-@Kahane2015], Kahane and colleagues investigate moral dilemma vignettes in which participants have to decide whether or not they would sacrifice one person's life to save several other lives, or judge how morally admissible such actions are. Traditionally, greater endorsement for sacrificing a life to save others has been interpreted as a more "utilitarian" moral orientation, i.e. a stronger concern for the greater good (in total, fewer people lose their lives). In a number of studies, Kahane et al. contest this interpretation, for example by showing that greater endorsement for such "utilitarian" choices correlates with sub-clinical psychopathy, and, crucially, by comparing the traditionally used vignettes with a set of new ones that pit partial motivations against an impartial concern for the greater good (e.g. buying a new mobile phone vs. donating the money to save lives in a distant country, study 4).
