@@ -1,6 +1,9 @@
 library(TOSTER)
 library(pwr)
 
+Brandt.data <- read.csv("Example1_Brandt-et-al-study1_data-cleaned.csv", header = TRUE, sep = ",")
+Brandt.data <- as.data.frame(Brandt.data)
+
 # original study: Banerjee et al., study 1
 orig.m1 <- 4.71
 orig.m2 <- 5.3
@@ -13,16 +16,17 @@ orig.N <- 40 #group size unknown, therefore equal n assumed
 orig.df <- orig.N-2
 
 # replication study: Brandt et al., study 1
-rep.m1 <- 4.7857
-rep.m2 <- 4.6569
-rep.sd1 <- 1.0897
-rep.sd2 <- 1.1895
-rep.n1 <- 49
-rep.n2 <- 51
-rep.t <- 0.56
-rep.p <- .574
-rep.df <- rep.n1 + rep.n2 - 2
-rep.d <- 0.11
+rep.m1 <- mean(Brandt.data$WellLitSca[Brandt.data$ExpCond==-1])
+rep.m2 <- mean(Brandt.data$WellLitSca[Brandt.data$ExpCond==1])
+rep.sd1 <- sd(Brandt.data$WellLitSca[Brandt.data$ExpCond==-1])
+rep.sd2 <- sd(Brandt.data$WellLitSca[Brandt.data$ExpCond==1])
+rep.n1 <- sum(Brandt.data$ExpCond==-1)
+rep.n2 <- sum(Brandt.data$ExpCond==1)
+rep.test <- t.test(Brandt.data$WellLitSca[Brandt.data$ExpCond==-1],Brandt.data$WellLitSca[Brandt.data$ExpCond==1], var.equal=FALSE, paired=FALSE)
+rep.t <- rep.test$statistic
+rep.p <- rep.test$p.value
+rep.df <- rep.test$parameter
+rep.d <- (rep.m1 - rep.m2)/sqrt(((rep.n1-1)*rep.sd1^2 + (rep.n2-1)*rep.sd2^2)/(rep.n1+rep.n2-2))
 
 
 # Calculate small telescopes effect (d) effect orig. study had 33% power to detect

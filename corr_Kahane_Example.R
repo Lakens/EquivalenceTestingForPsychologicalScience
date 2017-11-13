@@ -9,7 +9,7 @@ library(pwr)
 ## utilitarian in the other dilemmas, and vice versa. This lack of relationship held even when
 ## controlling for primary psychopathy in a partial second order correlation (r = -.07, p = .32)."
 
-Kahane.data <- read.csv("Kahane_etal_study4_cleaned.csv", header = TRUE, sep = ",")
+Kahane.data <- read.csv("Example5_Kahane-et-al-study4_data-cleaned.csv", header = TRUE, sep = ",")
 Kahane.data <- as.data.frame(Kahane.data)
 
 # sample size
