@@ -99,7 +99,6 @@ source("NSEQ_Lynott_example.R")
 lynottplot = baseplot +
   annotate(geom = "pointrange", x = 0.5, y = Lynott$dif, ymin = Lynott$LL_CI_ZTEST, ymax = Lynott$UL_CI_ZTEST, size = nhst.size, fatten = point.size) +
   annotate(geom = "pointrange", x = 0.5, y = Lynott$dif, ymin = Lynott$LL_CI_TOST, ymax = Lynott$UL_CI_TOST, size = tost.size, fatten = point.size) +
-  geom_hline(yintercept=Lynott$low_eqbound, lty=2) +
   geom_hline(yintercept=Lynott$high_eqbound, lty=2) +
   ylim(c(Lynott$low_eqbound*plot.scaler, Lynott$high_eqbound*plot.scaler)) +
   labs(title = "D: Example 4 (Lynott et al.)", y = "Effect (proportion difference)")
