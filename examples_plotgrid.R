@@ -30,7 +30,7 @@ baseplot <- ggplot(data.frame()) +
 
 ####  Meta analysis ----------------------------------------
 
-source("Example2_Hyde-et-al.R")
+source("Example3_Hyde-et-al.R")
 
 grades <- list(gr2, gr3, gr4, gr5, gr6, gr7, gr8, gr9, gr10, gr11)
 
@@ -68,7 +68,7 @@ metaplot <- ggplot(data=df, aes(x=label, y=es, ymin=li95, ymax=ui95)) +
 
 ####  Brandt ----------------------------------------
 
-source("Example1_Brandt-et-al_study1.R")
+source("Example2_Brandt-et-al_study1.R")
 
 brandtplot = baseplot +
   annotate(geom = "pointrange", x = 0.5, y = Brandt$diff, ymin = Brandt$LL_CI_TTEST, ymax = Brandt$UL_CI_TTEST, size = nhst.size, fatten = point.size) +
@@ -80,7 +80,7 @@ brandtplot = baseplot +
 
 #### Moon ----------------------------------------
 
-source("Example3_MoonRoeder.R")
+source("Example1_MoonRoeder.R")
 
 moonplot = baseplot +
   annotate(geom = "pointrange", x = 0.5, y = Moon$diff, ymin = Moon$LL_CI_TTEST, ymax = Moon$UL_CI_TTEST, size = nhst.size, fatten = point.size) +

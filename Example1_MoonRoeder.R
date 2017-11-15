@@ -1,5 +1,5 @@
 #  Load the relevant datafile into R
-moon.data        <- read.csv("NSNEQ_Moon_Example_data.csv")  # Data can be found at https://osf.io/rwv5s/ (final_dataset_139_to_send.sav)
+moon.data        <- read.csv("Example1_MoonRoeder_data-cleaned.csv")  # Data can be found at https://osf.io/rwv5s/ (final_dataset_139_to_send.sav)
 
 #  Set the bounds, in this case 1 grade point, which corresponds to 6.25%
 sesoi <- 0.0625

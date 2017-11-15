@@ -1,7 +1,7 @@
 library(TOSTER)
 library(pwr)
 
-Brandt.data <- read.csv("Example1_Brandt-et-al-study1_data-cleaned.csv", header = TRUE, sep = ",")
+Brandt.data <- read.csv("Example2_Brandt-et-al_study1_data-cleaned.csv", header = TRUE, sep = ",")
 Brandt.data <- as.data.frame(Brandt.data)
 
 # original study: Banerjee et al., study 1
