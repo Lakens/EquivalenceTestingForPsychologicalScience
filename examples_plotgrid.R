@@ -56,7 +56,7 @@ metaplot <- ggplot(data=df, aes(x=label, y=es, ymin=li95, ymax=ui95)) +
   geom_hline(yintercept=sesoi, lty=2) +
   geom_hline(yintercept=0, lty=1) +
   coord_flip() +  # flip coordinates (puts labels on y axis)
-  labs(title = "B: Example 2 (Hyde et al.)", y = "Effect (Z)") +
+  labs(title = "C: Example 3 (Hyde et al.)", y = "Effect (Z)") +
   ylim(c(-sesoi*plot.scaler, sesoi*plot.scaler)) +
   theme_classic(base_size = 10) + # use a white background
   theme(plot.title = element_text(size = rel(1), face = "bold"),
@@ -75,7 +75,7 @@ brandtplot = baseplot +
   annotate(geom = "pointrange", x = 0.5, y = Brandt$diff, ymin = Brandt$LL_CI_TOST, ymax = Brandt$UL_CI_TOST, size = tost.size, fatten = point.size) +
   geom_hline(yintercept=Brandt$low_eqbound, lty=2) +
   geom_hline(yintercept=Brandt$high_eqbound, lty=2) +
-  labs(title = "A: Example 1 (Brandt et al.)", y = "Effect (mean difference)") +
+  labs(title = "B: Example 2 (Brandt et al.)", y = "Effect (mean difference)") +
   ylim(c(Brandt$low_eqbound*plot.scaler, Brandt$high_eqbound*plot.scaler))
 
 #### Moon ----------------------------------------
@@ -87,7 +87,7 @@ moonplot = baseplot +
   annotate(geom = "pointrange", x = 0.5, y = Moon$diff, ymin = Moon$LL_CI_TOST, ymax = Moon$UL_CI_TOST, size = tost.size, fatten = point.size) +
   geom_hline(yintercept=Moon$low_eqbound, lty=2) +
   geom_hline(yintercept=Moon$high_eqbound, lty=2) +
-  labs(title = "C: Example 3 (Moon & Roeder)", y = "Effect (mean difference)") +
+  labs(title = "A: Example 1 (Moon & Roeder)", y = "Effect (mean difference)") +
   ylim(c(Moon$low_eqbound*plot.scaler, Moon$high_eqbound*plot.scaler))
 
 #### Lynott ----------------------------------------
@@ -121,4 +121,4 @@ lay <- rbind(c(1,2,5),
              c(3,4,5)) # Define the figure layout. Think of the c()s as a grid/ Plot 1-5 will be alloted the relative space in the grid.
 
 
-example.grid <- grid.arrange(brandtplot, moonplot, lynottplot, kahaneplot, metaplot, layout_matrix = lay)
+example.grid <- grid.arrange(moonplot, brandtplot, lynottplot, kahaneplot, metaplot, layout_matrix = lay)
