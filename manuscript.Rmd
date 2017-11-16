@@ -184,7 +184,29 @@ Kahane and colleagues [-@Kahane2015] investigate how responses to moral dilemmas
 This interpretation can be formalized by performing an equivalence test for correlations, where equivalence bounds are set to an effect size the study had reasonable power to detect. With `r Kahane.N` participants, the study had 80% power to detect effects of $r = `r printnum(Kahane.r.80)`$. Performing the TOST procedure given bounds of $\Delta_{L} = `r printnum(-Kahane.r.80)`$ and $\Delta_{U} = `r printnum(Kahane.r.80)`$, the result is indeed statistically equivalent, $r(`r Kahane.N-2`) = `r printnum(Kahane.r.GG)`$, $p = `r printp(max(Kahane$TOST_p1, Kahane$TOST_p2))`$. This means that values smaller than $r = `r printnum(-Kahane.r.80)`$ and larger than $r = `r printnum(Kahane.r.80)`$ can be rejected at an alpha level of 5%. If other researchers are interested in examining possible smaller effects, they can design studies with a larger sample size that can detect, or reject, smaller effect sizes.
 
 
-\begin{textbox} \caption{Calculating an equivalence test in R.} \begin{framed} { \small \setstretch{1} If you want to calculate an equivalence test based on summary statistics, you can use the ``TOSTER'' package in the open-source programming language R. Using TOSTER requires very little experience with R, or programming in general. Below are the few simple steps required to calculate an equivalence test with TOSTER. \begin{enumerate} \raggedright \setlength{\parskip}{1pt} \item Download, install, and open R. \item Run \verb!install.packages("TOSTER")! in the console. \item Run \verb!library(TOSTER)! in the console. \item The example below reproduces the result of example 1 in R. The parameters of the test are defined inside the parentheses, and you can run \verb!?TOSTtwo! in the console to get information about them. Simply copy the example to the console, replace the values with the corresponding values of your own study, and run the code. Results and a plot will automatically be printed. \begin{verbatim} TOSTtwo(m1 = 4.7857, m2 = 4.6569, sd1 = 1.0897, sd2 = 1.1895, n1 = 49, n2 = 51, low_eqbound_d = -0.6401696, high_eqbound_d = 0.6401696, alpha = 0.05, var.equal = FALSE) \end{verbatim} \item The example above uses the \verb!TOSTtwo()! function in the TOSTER package which calculates an equivalence test for an independent samples t-test. If you need to calculate TOST for a different type of test (e.g. a correlation), you can find documentation for \verb!TOSTr()! and other functions of the TOSTER package by going to {\sffamily \url{https://cran.r-project.org/web/packages/TOSTER/TOSTER.pdf}} in your web browser. \end{enumerate}} \end{framed} \end{textbox}
+\begin{textbox} 
+\caption{Calculating an equivalence test in R.} 
+\begin{framed} 
+{\sffamily \small \setstretch{1}
+Equivalence tests can be performed  based on summary statistics (e.g., means, standard deviations, and sample sizes) with the ``TOSTER'' package in the open-source programming language R. Using TOSTER in R requires no more programming experience than reproducing three lines of code. 
+\vspace{2mm}
+
+The code below reproduces the result of Example 2 in R, which can be typed into R or RStudio. The parameters of the test are defined inside the parentheses. Simply copy the example to the console, replace the values with the corresponding values of your own study, and run the code. Results and a plot will automatically be printed. A help file provides more detailed information.
+
+\begin{verbatim}
+install.packages("TOSTER")
+
+library(TOSTER)
+
+TOSTtwo(m1 = 4.7857, m2 = 4.6569, sd1 = 1.0897, sd2 = 1.1895, n1 = 49, 
+n2 = 51, low_eqbound_d = -0.6401696, high_eqbound_d = 0.6401696, alpha = 0.05, 
+var.equal = FALSE)
+\end{verbatim}
+}
+\end{framed} 
+\end{textbox}
+
+
 
 # Discussion
 
