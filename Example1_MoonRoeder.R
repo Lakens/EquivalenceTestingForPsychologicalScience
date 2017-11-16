@@ -18,11 +18,9 @@ sample.se <- sqrt(sd.asian^2 / n.asian + sd.control^2 / n.control)  # Calculate 
 
 t <- (mean.asian - mean.control) / sample.se  # Welch t-test
 
-d <- (mean.asian - mean.control) / sqrt((((n.asian - 1) * (sd.asian^2)) + (n.control - 1) * (sd.control^2)) / ((n.control + n.control) - 2))
-
 p <- 2 * pt(t, df)
 
-sdpooled <- sqrt((((n.asian - 1)*(sd.asian^2)) + (n.control - 1)*(sd.control^2))/((n.asian+n.control)-2))
+sdpooled <- sqrt((((n.asian - 1) * (sd.asian^2)) + (n.control - 1) * (sd.control^2)) / ((n.asian + n.control) - 2))
 d <- (mean.asian - mean.control) / sdpooled
 
 
