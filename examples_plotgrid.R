@@ -5,7 +5,6 @@
 library(purrr)
 library(gridExtra)
 library(ggplot2)
-library(grid)
 library(lattice)
 
 library("TOSTER")
