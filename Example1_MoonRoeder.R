@@ -11,6 +11,8 @@ sd.asian         <- sd(moon.data$accuracy[moon.data$identity_salience == 1])
 sd.control   <- sd(moon.data$accuracy[moon.data$identity_salience == 2])
 n.asian          <- sum(moon.data$identity_salience == 1)
 n.control        <- sum(moon.data$identity_salience == 2)
+sample.sd <- sqrt((sd.asian^2 + sd.control^2) / 2)  # Calculate sd root mean squared for Welch's t-test
+sample.se <- sqrt(sd.asian^2 / n.asian + sd.control^2 / n.control)  # Calculate the se of the difference based on sd.pooled
 
 df <- (sd.asian^2 / n.asian + sd.control^2 / n.control)^2 / (((sd.asian^2 / n.asian)^2 / (n.asian-1)) + ((sd.control^2 / n.control)^2 / (n.control - 1)))  # Degrees of freedom for Welch's t-test
 
