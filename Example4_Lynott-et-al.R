@@ -10,7 +10,7 @@ library(TOSTER)  # Install TOSTER using devtools::install_github("Lakens/TOSTER"
 
 
 #  We first load the data and exclude cases to only include cases that did not meet the authors' exclusion criteria.
-lynott.data <- read.csv("NSEQ_Lynott_example_data.csv")
+lynott.data <- read.csv("Example4_Lynott-et-al_data-cleaned.csv")
 lynott.data <- lynott.data[lynott.data$include1 == 1,]
 
 
