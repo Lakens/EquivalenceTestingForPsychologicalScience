@@ -126,7 +126,7 @@ In the remainder of this article we will provide five detailed examples of equiv
 ```{r include=FALSE}
 source("examples_plotgrid.R")
 ```
-```{r echo=FALSE, fig.cap=paste("Example effects plotted with 90% TOST CIs (thick lines) and 95% NHST CIs (thin lines), the NHST null hypothesis (solid vertical line) and the equivalence bounds (dashed vertical lines) displayed. **A)** Example 1 - Mean Difference. **B)** Example 2 - Mean Difference. **C)** Example 3 - Meta-analytic Effect Size. **D)** Example 4 - Proportion Difference. **E)** Example 5 - Pearson Correlation")}
+```{r echo=FALSE, fig.cap=paste("Example effects plotted with 90% TOST CIs (thick lines) and 95% NHST CIs (thin lines), the NHST null hypothesis (solid vertical line) and the equivalence bounds (dashed vertical lines) displayed. **A)** Example 1 - Mean Difference. **B)** Example 2 - Mean Difference. **C)** Example 3 - Meta-analytic Effect Size. **D)** Example 4 - Proportion Difference. **E)** Example 5 - Pearson Correlation.")}
 # Plot the TOST examples
 plot(example.grid)
 ```
