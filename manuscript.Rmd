@@ -19,6 +19,16 @@ affiliation:
 
 author_note: >
   We would like to thank Courtney Soderberg for creating the first version of the TOST function to test two independent proportions.
+  DL: Article conceptualization, programming TOSTER package and spreadsheet, main contributor to the introduction section and, discussion section.
+  AS and PI: Main contributors to examples and figures.
+  All authors contributed to manuscript conceptualization, editing, review for submission, and additional software development. AS and PI contributed equally to the manuscript, and order was determined by executing the following commands in R:
+  \newline
+  `set.seed(7998976/5271)`
+  \newline
+  `x <- sample(c("Anne", "Peder"), 1)`
+  \newline
+  `print(paste("The winner is", x, "!"))`
+  \newline
 
 abstract: >
   Psychologists must be able to test both for the presence of an effect and for the the absence of an effect. In addition to testing against zero, researchers can use the Two-One-Sided Tests (TOST) procedure to test for *equivalence* and reject the presence of a meaningful effect. TOST can be used to determine if  an observed effect is surprisingly small, given that a true effect at least as large as the SESOI exists. We explain a range of approaches to determine the SESOI in psychological science, and provide detailed examples of how equivalence tests should be performed and reported. Equivalence tests enable researchers to falsify predictions about the presence, and declare the absence, of meaningful effects.  
