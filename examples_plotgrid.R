@@ -49,8 +49,8 @@ sesoi <- 0.1
 
 metaplot <- ggplot(data=df, aes(x=label, y=es, ymin=li95, ymax=ui95)) +
   scale_x_discrete(breaks=NULL) +
-  geom_pointrange(size = nhst.size, fatten = point.size/2) + 
-  geom_pointrange(aes(ymin=li90, ymax=ui90), size = tost.size, fatten = point.size/2) +
+  geom_pointrange(size = nhst.size/2, fatten = point.size/5) + 
+  geom_pointrange(aes(ymin=li90, ymax=ui90), size = tost.size/2, fatten = point.size/5) +
   geom_hline(yintercept=-sesoi, lty=2) +
   geom_hline(yintercept=sesoi, lty=2) +
   geom_hline(yintercept=0, lty=1) +
