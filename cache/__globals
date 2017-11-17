@@ -1,0 +1,12 @@
+unnamed-chunk-1	library
+unnamed-chunk-2	library	pwr	alpha	N	pwr.t.test	d
+unnamed-chunk-3	library	TOSTER	powerTOSTone
+unnamed-chunk-4	p	N	crit_d	abs	qt	sqrt
+unnamed-chunk-5	library	TOSTmeta
+unnamed-chunk-6	TOSTtwo.raw
+unnamed-chunk-7	TOSTtwo
+unnamed-chunk-8	powerTOSTone
+unnamed-chunk-9	TOSTone
+unnamed-chunk-10	powerTOSTr
+unnamed-chunk-11	TOSTr
+create_r-references	r_refs

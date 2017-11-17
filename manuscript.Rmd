@@ -1,0 +1,246 @@
+---
+title             : "Equivalence Testing for Psychological Science"
+shorttitle        : "Equivalence Testing"
+
+author: 
+  - name          : "Daniel Lakens"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Den Dolech 1, IPO 1.33, 5600 MB, Eindhoven, The Netherlands"
+    email         : "D.Lakens@tue.nl"
+  - name          : "Anne M. Scheel"
+    affiliation   : "1"
+  - name          : "Peder Isager"
+    affiliation   : "1"
+
+affiliation:
+  - id            : "1"
+    institution   : "Eindhoven University of Technology"
+
+author_note: >
+  We would like to thank Courtney Soderberg for creating the first version of the TOST function to test two independent proportions.
+  DL: Article conceptualization, programming TOSTER package and spreadsheet, main contributor to the introduction section and, discussion section.
+  AS and PI: Main contributors to examples and figures.
+  All authors contributed to manuscript conceptualization, editing, review for submission, and additional software development. AS and PI contributed equally to the manuscript, and order was determined by executing the following commands in R:
+  \newline
+  `set.seed(7998976/5271)`
+  \newline
+  `x <- sample(c("Anne", "Peder"), 1)`
+  \newline
+  `print(paste("The winner is", x, "!"))`
+  \newline
+
+abstract: >
+  Psychologists must be able to test both for the presence of an effect and for the the absence of an effect. In addition to testing against zero, researchers can use the Two-One-Sided Tests (TOST) procedure to test for *equivalence* and reject the presence of a meaningful effect. TOST can be used to determine if  an observed effect is surprisingly small, given that a true effect at least as large as the SESOI exists. We explain a range of approaches to determine the SESOI in psychological science, and provide detailed examples of how equivalence tests should be performed and reported. Equivalence tests enable researchers to falsify predictions about the presence, and declare the absence, of meaningful effects.  
+  
+keywords          : "Equivalence Testing, NHST, power, TOST"
+wordcount         : "X"
+
+header-includes:
+  - \usepackage{float}
+  - \usepackage{framed}
+  - \usepackage{caption}
+  - \usepackage{setspace}
+  - \captionsetup[textbox]{name=Box,labelsep=period,labelfont=it}
+  - \newfloat{textbox}{thp}{lop}
+  - \floatname{textbox}{Box}
+
+bibliography      : ["equivalence.bib"]
+
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_pdf
+---
+getwd()
+```{r include = FALSE}
+library("papaja")
+
+# papaja:::fetch_zotero_refs(
+#   x = "1786197"
+#   , bib_name = "equivalence.bib"
+#   , API_key = "F7JGNtCxZGT6q87Eeg2zNWiP"
+#   , lib_type = "group"
+# )
+```
+
+Psychologists should be able to falsify predictions. A common prediction in psychological research is that an effect that differs from zero exists in the population. For example, we might predict that priming American Asian women with their Asian identity will increase their performance on a math test compared to women who are primed with their female identity. To be able to design a study that allows for strong inferences [@Platt1964], it is important to specify which test result would *falsify* this hypothesis.
+
+Equivalence testing can be used to test whether an observed effect is surprisingly small, assuming a meaningful effect exists in the population. The test is a simple variation of widely used null hypothesis significance tests (NHST). To understand the idea behind equivalence tests, it is useful to realize the null hypothesis we test against can be any numerical value. When we compare two groups, we often test whether the difference between these groups is zero (see Figure 1A), but we may sometimes want to test against other values than zero. Imagine a researcher who is interested in voluntary participation in a national program to train young infants' motor skills. The researcher wants to test whether more boys than girls are brought into the program by their parents. Because the human sex ratio of newborn boys to girls is not exactly 1:1, we should not expect 50% of participants to be boys. On average, 103 boys are born for every 100 girls [@UnitedStates2016], so approximately 50.74% of applicants should be boys, and 49.26% should be girls. If boys and girls were exactly equally likely to be brought into the program by their parents, we would not expect a difference of zero, but 50.74% - 49.26% = 1.5% more boys. Rather than testing against a null hypothesis of 0 difference, the researcher tests against a null hypothesis of 0.015.
+
+Alternatively, the researcher could decide that even if the true ratio in the population is not exactly 0.015, the null hypothesis should consist of a range of values around the difference in proportions of 0.015 that can be considered trivially small. The researcher could for example test if the difference is smaller than -0.005, or larger than 0.035. This test against two bounds, with $H_0$ being a range rather than one value (see Figure 1B), is known as a *minimal effects test* [@Murphy2014].
+
+
+*Equivalence tests* can be seen as the opposite of minimal effects tests: They examine whether the presence of effects that are large enough to matter can be *rejected* (see Figure 1C). In our example, the researcher can perform an equivalence test to test whether the gender difference in participants is *not* large enough to be considered meaningful: the *smallest effect size of interest* (SESOI). After an extensive discussion with experts, the researcher decides that as long as the difference in proportions is not more extreme than 6%, the gender difference is too small to care about. Given an expected true difference in the population of 0.015, the researcher will test if the observed difference falls outside the boundary values of -0.055 and 0.075. If differences more extreme than these boundary values can be rejected in two one-sided tests (TOST), the researcher will conclude statistical equivalence, the gender difference will be considered trivially small, and no money will be spent on addressing a gender difference in participation.
+
+In any one-sided test, for an alpha level of 5%, we can reject $H_0$ when the 90% confidence interval around the observed estimate is in the predicted direction, and does not contain the value tested against (e.g., 0). In TOST, the first one-sided test is used to test against values smaller than the lower bound ($\Delta_{L}$), and the second one-sided test is used to test against values larger than the upper bound ($\Delta_{U}$). It is not necessary to control for multiple tests when using the TOST procedure because both tests need to be statistically significant to conclude equivalence. This means that when reporting a TOST result, authors can suffice by reporting the one-sided test with the smaller test parameter (e.g. $t$ or $r$) and thus the larger $p$-value. Statistical equivalence can be concluded when the largest of the two $p$-values is smaller than alpha. 
+
+Note that in this paper we will control the Type 1 error rate at 5% for all examples, mirroring the studies we reanalyze (but we recommend to set and justify the Type 1 error rate in original research based on the goals researchers have [@Lakens2017b]. It might be easiest to think of an equivalence test as checking whether the confidence interval excludes the SESOI, but for any given study an equivalence test could also be conceptualized as determining whether effect sizes or test statistics are closer to zero than some critical value, or even whether the *p*-value for a NHST is larger than some *p*-value bound.
+
+```{r echo=FALSE, fig.width=5, fig.height=7, fig.cap="Illustration of null hypotheses ($H_0$) and alternative hypotheses ($H_1$) for different types of significance tests. **A)** NHST: Tests the hypothesis ($H_0$) that an effect is equal to 0. **B)**  Minimal effects test: Tests the hypothesis ($H_0$) that an effect is larger than $\\Delta_{L}$ *and* smaller than $\\Delta_{U}$. **C)** Equivalence test: Tests the hypothesis ($H_0$) that an effect is smaller than $\\Delta_{L}$ *or* larger than $\\Delta_{U}$. **D)** Inferiority test: Tests the hypothesis ($H_0$) that an effect is larger than $\\Delta$."}
+
+# Plot H0 and H1 regions for different significance tests
+source("H0H1_plot.R")
+getwd()
+```
+
+In this article we provide several reproducible examples of equivalence tests which illustrate the procedure in easy-to-use free software (R, jamovi, and a spreadsheet). But first, we discuss different approaches to determining the SESOI for psychological research, which determines the statistical question an equivalence test answers. 
+
+
+# Justifying the Smallest Effect Size of Interest
+
+
+TOST is performed against equivalence bounds that are considered the smallest effect size of interest. The SESOI can sometimes be determined objectively, for example based on just noticeable differences. In lieu of objective justifications, the SESOI should ideally be based on a cost-benefit analysis. Since both costs and benefits are necessarily subjective, the SESOI will vary across researchers, fields, and time. The goal of setting a SESOI is to clearly justify why designing a study that has a high probability of rejecting effects more extreme than the specified equivalence bounds contributes to our knowledge base. A SESOI should be chosen such that inferences based on it answer a meaningful question. Although we use bounds that are symmetric around 0 in all examples in this manuscript for equivalence tests (e.g., $\Delta_{L} = -0.3$, $\Delta_{U} = 0.3$), it is also possible to use asymmetric bounds, for example based on an explicit cost-benefit analysis (e.g., $\Delta_{L} = -0.2$, $\Delta_{U} = 0.3$). 
+
+
+##Objective Justification of a SESOI
+
+
+An objectively determined SESOI should be based on quantifiable theoretical predictions, such as computational models. Sometimes, the only theoretical prediction is that an effect should be noticeable. In such circumstances, the SESOI can be set based on just noticeable differences. For example, Burriss and colleagues [-@Burriss2015] examined whether women displayed an increase in redness in the face during the fertile phase of their ovulatory cycle. The hypothesis was that a slightly redder skin signals greater attractiveness and physical health, and sending this signal to men yields an evolutionary advantage. This hypothesis presupposes that men can detect the increase in redness with the naked eye. Burriss and colleagues collected data from 22 women and showed that there was indeed an increase in redness of the facial skin during their fertile period. However, this increase was not large enough for men to detect with the naked eye, thus falsifying their hypothesis. Because the just noticeable difference in redness of the skin can be measured, it is possible to establish an objective SESOI.
+
+Another example of an objectively determined SESOI can be found in @Button2015, where the minimal clinically important difference on the Beck Depression Inventory -- II was determined by asking 1039 patients when they subjectively felt less depressed (i.e., when they personally noticed an improvement) and relating this to the corresponding difference score on the depression inventory. Similarly, @Norman2003 proposed there is a surprisingly consistent minimally important difference of half a standard deviation, or $d = 0.5$, in health outcomes. 
+
+
+##Subjective Justification of a SESOI
+
+We distinguish between three categories of subjective justifications for the SESOI. First, researchers can use benchmarks. For example, one might set the SESOI to a standardized effect size of $d = 0.5$, which would allow rejecting effects more extreme than a 'medium' effect size [@Cohen1988]. Similarly, effect sizes smaller than a Cohen's $d$ of 0.1 are sometimes considered trivially small [@Maxwell2015]. Relying on a benchmark is the weakest possible justification of a SESOI, and should be avoided. Based on a review of 112 meta-analyses, @Weber2012 conclude that setting a SESOI to a medium effect size ($r = 0.3$, or $d = 0.5$) corresponds to rejecting the highest 25% of effect sizes reported in communications research, and @Hemphill2003 suggests that a SESOI of $d = 0.5$ would imply rejecting effects as large as the upper 33% of effect sizes reported in the psychological literature.
+
+
+```{r, results="hide"}
+library(pwr)
+alpha <- 0.05
+N <- 100
+```
+
+Second, researchers can determine the SESOI based on previous work in the literature. Ideally, researchers would always specify their SESOI in studies they report, but this is not yet common practice. It is thus up to researchers who build on earlier work to decide which effect size is too small to be meaningful, given an earlier study. @Simonsohn2015 recently proposed to set the SESOI to the effect size that an earlier study on the same effect would have had 33% power to detect. With this so-called 'small telescopes' approach, the equivalence bounds are thus determined primarily based on the sample size in the original study. For example, consider a study in which `r N` participants answered a question, and the results were analyzed with a one-sample t-test. For a two-sided test with an alpha of `r alpha`, this test had 33% power to detect an effect of $d = `r printnum(pwr.t.test(n=N,sig.level=alpha,power=0.33,type="one.sample",alternative="two.sided")$d)`$. Another example of how previous research can be used to determine the SESOI can be found in @Kordsmeyer2017, who defined the SESOI based on the mean of effect sizes reported in the literature. Thus, they examined whether their replication study could reject effects as large or larger than had on average been reported in the literature. Given random variation and bias in the literature, a more conservative approach could be to use the lower end of a confidence interval around the meta-analytic effect size estimate [cf. @Perugini2014].
+
+Another justifiable choice when basing the SESOI on previous work is to use the smallest observed effect size that could have been statistically significant in a previous study. In other words, we decide that effects that could not have yielded a $p < \alpha$ in an original study will not be considered meaningful in the replication study either, even if they were found to be statistically significant. Based only on the alpha level and the sample size, we can calculate the critical test value (e.g., *t*, *F*, *Z*). This critical test value can be transformed to a standardized effect size (e.g., $d = t \sqrt { \frac { 1} { n _ { 1} } + \frac { 1} { n _ { 2} } }$), which can thus be interpreted as the *critical effect size*.^[This will typically, although not always, correspond to the effect size the study had 50% power to detect [see @Lenth2007]. This procedure will result in equivalence bounds that are substantially wider than the ones obtained using the small telescopes approach, which gives the effect size a study had 33% power to detect.] All observed effect sizes smaller than the critical effect size would not have been statistically significant in the original study, given the alpha and sample size of that study. By setting the SESOI to the critical effect size, an equivalence test can reject all observed effect sizes that could have been detected in an earlier study.
+
+Third, researchers can set the SESOI based on the sample size they are planning to collect. The amount of data you can collect limits the inferences you can make. Given the alpha level and the sample size, researchers can calculate the smallest effect size that they have sufficient power to detect.^[This approach is conceptually very similar to the *power approach*, where the effect size you had 95% power to detect is calculated, and the presence of effects more extreme than this value is rejected after observing a $p$-value *larger than* 0.05 in a traditional NHST. However, @Meyners2012 explains that this approach is not recommended (even though it is common) because it ignores the possibility that effects are significant *and* equivalent, and error rates are not controlled accurately.] This approach can be used when there are no quantitative predictions made by a theory, and no previous studies have been performed, but researchers *can* justify their sample size. In essence, this approach allows researchers to reject the presence of effects that can be reliably detected given a specific sample size. For example, a researcher who plans to perform a one-sample $t$-test using an alpha of `r alpha*100`% (two-sided), based on data from `r N` observations, has 90% power to detect an effect of $d = `r printnum(pwr.t.test(n=N,sig.level=alpha,power=0.90,type="one.sample",alternative="two.sided")$d)`$. Using equivalence bounds of $\Delta_{L} = `r printnum(-pwr.t.test(n=N,sig.level=alpha,power=0.90,type="one.sample",alternative="two.sided")$d)`$ and $\Delta_{U} = `r printnum(pwr.t.test(n=N,sig.level=alpha,power=0.90,type="one.sample",alternative="two.sided")$d)`$ in an equivalence test allows to reject effects the study had high statistical power to detect. 
+
+Importantly, an equivalence test based on this approach does not answer any theoretical question (after all, the equivalence bounds are not based on any theoretical predictions) but it answers a *resource* question: Can effects be rejected that could reliably be detected given a specific sample size? In this case, concluding equivalence would suggest that effects which could reasonably be detected with a sample size of 100 can be rejected, and that future studies probably need larger sample sizes to examine a specific question. Whether or not the answer such an equivalence test provides is interesting depends on the sample sizes used in the study, and in part on how typical the chosen sample size is for the research area. An equivalence test based on 15 observations rejecting a SESOI of $d = 1$ cannot be expected to substantially increase our knowledge, given that most effects in psychology are substantially smaller than these bounds and require larger sample sizes to be detected. By transparently reporting the effects that can be detected and rejected based on the study design, researchers can communicate the information their study contributes, and provide a starting point for a discussion about what the size of a reasonable SESOI may be.
+
+
+#Raw versus standardized equivalence bounds
+ 
+The SESOI, and thus the equivalence bounds, can be set in terms of standardized effect sizes (e.g. a Cohen’s $d$ of 0.5) or as a raw mean difference (e.g. 0.5 points on a 7-point scale). The key difference is that equivalence bounds set in raw differences are independent of the standard deviation, while equivalence bounds set as standardized effects are dependent on the standard deviation (since they are calculated as $\frac {X _ { 1} - X _ { 2} } {S D}$. The observed standard deviation randomly varies across samples. In practice, this means that when using standardized differences as bounds (e.g., $d = 0.35$), the equivalence test depends on the standard deviation in the sample. The equivalence bound for a raw mean difference of 0.5 equals a standardized equivalence bound of $d = 0.5$ when the standard deviation is 1, but a standardized equivalence bound of $d = 1$ when the standard deviation is 0.5.
+
+Both raw equivalence bounds and standardized equivalence bounds have specific benefits and limitations [for a discussion, see @Baguley2009]. When raw mean differences are meaningful and of theoretical interest, it makes sense to set equivalence bounds based on raw effect sizes. When the raw mean difference is of less theoretical importance, or different measures are used across research lines, it is often easier to set equivalence bounds based on standardized differences. Researchers should realize that equivalence bounds based on raw differences or standardized differences ask slightly different questions, and justify their choice for either option. When setting equivalence bounds based on earlier research, such as in replication studies, equivalence bounds based on raw or standardized differences would ideally give the same result, and large differences in standard deviations between studies are as important to interpret as large differences in means.
+
+In the remainder of this article we will provide five detailed examples of equivalence tests performed on published studies. These concrete and easy to follow examples will illustrate all approaches to setting equivalence bounds discussed above, and demonstrate how to perform and report equivalence tests. The code to reproduce these analyses is available at <https://osf.io/qamc6/>^[The OSF project contains all necessary files to reproduce examples 1--5 in R, jamovi [@jamovi2017], and in a spreadsheet; as well as a preprint of this manuscript. The manuscript, including the figures and statistical analyses, was created using R version 3.4.2 [@RCoreTeam2017] and RStudio version 1.1.383 [@RStudioTeam2016], with the packages `TOSTER` version 0.3 [@Lakens2017c], `pwr` version 1.2--1 [@Champely2017], `rmarkdown` version 1.7[@Allaire2017], `knitr` version 1.17 [@Xie2017], `papaja` version 0.1.0.9492 [@Aust2017], `ggplot2` version 2.2.1 [@Wickham2009], `gridExtra` version 2.3 [@Auguie2017], `lattice` version 0.20--35 [@Sarkar2008], and `purrr` version 0.2.4 [@Henry2017].].
+
+```{r include=FALSE}
+source("examples_plotgrid.R")
+```
+```{r echo=FALSE, fig.cap=paste("Example effects plotted with 90% TOST CIs (thick lines) and 95% NHST CIs (thin lines), the NHST null hypothesis (solid vertical line) and the equivalence bounds (dashed vertical lines) displayed. **A)** Example 1 - Mean Difference. **B)** Example 2 - Mean Difference. **C)** Example 3 - Meta-analytic Effect Size. **D)** Example 4 - Proportion Difference. **E)** Example 5 - Pearson Correlation.")}
+# Plot the TOST examples
+plot(example.grid)
+```
+
+## Example 1: Not Statistically Equivalent and Not Statistically Different
+```{r include=FALSE}
+source("Example1_MoonRoeder.R")
+```
+
+@Moon2014, replicating @Shih1999, conducted a study to investigate whether Asian-American women would perform better on a maths test when primed with their Asian identity. In contrast to the original study, they found a negative difference between the Asian primed group ($n = `r n.asian`$, $M = `r printnum(mean.asian)`$, $SD = `r printnum(sd.asian)`$) and the control ($n = `r n.control`$, $M = `r printnum(mean.control)`$, $SD = `r printnum(sd.control)`$) which was not significant, $d = `r printnum(d)`$, $t(96.62) = `r printnum(t)`$, $p = `r printp(p)`$, two-sided). The non-significant null-hypothesis test does not allow us to distinguish between the absence of a meaningful effect and data that are not sensitive enough to tell us whether a meaningful effect is present or absent. 
+
+In order to distinguish between these possibilities, we can define what a “meaningful effect” (SESOI) would be and use it as the bounds for an equivalence test. If grades for this test were set at every `r printnum(sesoi * 100)`\% increase in correct answers (F = 0% to 6.25% ... A+ = 93.75% to 100%) we could decide that we are only interested in test differences that correspond to an increase or decrease of at least 1 grade point. Thus, our SESOI becomes a difference in raw scores of `r printnum(sesoi * 100)`\%, or `r printnum(sesoi, digits = 4)`. We can then perform the TOST procedure for a two-sample Welch’s *t*-test, using $\pm$ the SESOI of `r printnum(sesoi, digits = 4)` as the equivalence bounds ($\Delta$).
+The TOST is non-significant, $t(`r printnum(Moon$TOST_df)`) = `r printnum(min(abs(c(Moon$TOST_t1, Moon$TOST_t2))))`$, $p = `r printp(max(Moon$TOST_p1, Moon$TOST_p2))`$ (Figure 2A). Thus, we cannot reject a true effect as large or larger than 6.25%.^[In this example, the bounds of the TOST were based on a raw effect of 6.25%. We could have converted this raw effect into a standardized effect (Cohen's $d$) for the current sample, and we would have gotten the exact same result ($\Delta = \pm `r printnum(0.0625 / sqrt((sd.asian^2 + sd.control^2) / 2))`)$. Since this is a replication of a previous study, we could also have chosen to calculate the Cohen's $d$ that corresponds to the raw SESOI in the *original* study, and used this as the bounds for the replication. Now we would no longer be answering a question about a raw effect independent of the samples, but rather if the replication can reject standardized effects larger than a certain standardized effect in the original. Since the standard deviations of the original study were larger than in the replication in this case, Cohen's $d$ (and thus the bounds) would be narrower ($\Delta = \pm `r printnum(sesoi / sqrt((sd.asian^2 + sd.control^2) / 2))`)$.] When results are neither statistically different from zero nor statistically equivalent, there is insufficient data to draw conclusions. Further studies are needed, which can be analyzed using a (small-scale) meta-analysis. The additional data will narrow the confidence interval around the observed effect, allowing us to reject the null, reject the SESOI, or both. Analogous to the large sample sizes needed to detect small effects, a lot of data is needed to reject the SESOI when very narrow bounds are used for the equivalence test (e.g., $\Delta_{L} = -0.1$ and $\Delta_{U} = 0.1$).
+
+
+
+## Example 2: Statistically Equivalent and Not Statistically Different
+
+```{r include = FALSE}
+source("Example2_Brandt-et-al_study1.R")
+
+```
+
+@Banerjee2012 reported that `r orig.N` participants who had been asked to describe an unethical deed from their past judged the room to be darker than participants who had been asked to describe an ethical deed ($t(`r orig.df`)= `r orig.t`$, $p= `r printp(orig.p)`$, $d= `r printnum(orig.d)`$). A close replication by @Brandt2014 with `r rep.n1+rep.n2` participants found no significant effect ($M_{unethical}= `r rep.m1`$, ${SD}_{unethical}= `r rep.sd1`$, $M_{ethical}=`r rep.m2`$, ${SD}_{ethical}=`r rep.sd2`$, $t(`r printnum(rep.df)`)=`r printnum(rep.t)`$, $p=`r printp(rep.p)`$, $d=`r printnum(rep.d)`$). Using the small telescopes approach, we can calculate the effect size the original study had 33% power to detect --- $d = `r printnum(d.33)`$ --- and use this as the SESOI. A TOST procedure for Welch's *t*-test for independent samples and equivalence bounds of ${\Delta}_L=`r printnum(-d.33)`$ and ${\Delta}_U=`r printnum(d.33)`$ reveals that the effect observed in the replication study is statistically equivalent, $t(`r printnum(Brandt$TOST_df)`)=`r printnum(min(Brandt$TOST_t1, Brandt$TOST_t2))`$, $p=`r printp(max(Brandt$TOST_p1, Brandt$TOST_p2))`$ (Figure 2B).
+
+## Example 3: Statistically Equivalent and Statistically Different
+
+```{r, include=FALSE}
+source("Example3_Hyde-et-al.R")
+```
+
+@Hyde2008 report that effect sizes for gender differences in mathematics tests across the 7 million students in the US represent trivial differences, which the authors specify as effect sizes smaller than $d = `r printnum(sesoi)`$. For example, in grade 3 the difference is $d = 0.04$, with a standard error of 0.002. When we perform equivalence tests on the meta-analytic effect sizes of IQ difference for grades 2 to 11 (using an alpha level of `r printp(alpha)` to correct for multiple comparisons), using equivalence bounds of $\Delta_{L} = -0.1$ and $\Delta_{U} = 0.1$, we see that indeed, all effect size estimates are measured with such high precision that they are statistically equivalent and can be considered trivially small, according to the authors’ definition (Figure 2C). In the case of grade 3, $z = `r printnum(max(gr3$TOST_Z1, gr3$TOST_Z2))`$, $p = `r printnum(max(gr3$TOST_p1, gr3$TOST_p2))`$. However, note that all of the effects are also statistically different from zero, as one might expect when there is no random assignment to conditions and samples sizes are very large. For grade 3, $z = `r printnum(gr3.z)`$, $p = `r printnum(gr3.p)`$. This is one way in which the use of equivalence tests improves hypothesis testing procedures in science, by allowing researchers to distinguish between statistical significance and practical significance.
+
+
+## Example 4: Statistically Inferior and Not Statistically Different
+```{r include=FALSE}
+source("Example4_Lynott-et-al.R")
+```
+
+@Lynott2014 conducted a study to investigate the effect of being exposed to physically warm or cold stimuli on subsequent judgments related to interpersonal warmth and prosocial behavior [replicating @Williams2008]. They observed that `r printnum(selfish.cold*100)`\% of participants who received a cold pack ($n_{cold}=`r n.cold`$) opted to receive a reward for themselves, while `r printnum(selfish.hot*100)`\% of participants who received a warm pack ($n_{hot}=`r n.hot`$) did the same. In a z-test for the difference between the proportions, this effect is not statistically significant ($\mathit{Diff}=`r printnum(Lynott$dif * 100)`$\%, $Z=`r printnum(Lynott$NHST_z)`$, $p=`r printp(Lynott$NHST_p)`$). Had the authors planned to perform a NHST *and* an equivalence test, the latter would allow one to distinguish between an inconclusive outcome, or a statistically equivalent result.
+
+Since this is a replication, we could decide that we are interested in whether the observed effect size is smaller than the smallest effect size that the original study could have detected. This means that we use the critical z value (~1.96 in a two-tailed test with an alpha of 0.05) as equivalence bounds ($\Delta = \pm `r printnum(qnorm(1-0.05/2))`$). To figure out what difference corresponds to a critical z in the original study, we multiply critical z with the standard error.
+
+
+Since the original study had a clear directional hypothesis,  in this replication study we are only interested in whether receiving a warm pack *increases* the proportion of people who choose a gift for a friend.  This means we can test for inferiority (see Figure 1D) and conclude the absence of a meaningful effect if the observed effect size is reliably *lower* than the SESOI.
+We find that we can reject effects larger than  $\Delta_{U}$, $z = `r printnum(Lynott$TOST_z2)`$, $p `r printp(Lynott$TOST_p2)`$ (see Figure 2D). Thus, we can conclude that the statistically non-significant effect is also statistically smaller than our SESOI.
+
+## Example 5: Statistically Equivalent and not Statistically Different
+```{r include = FALSE}
+source("Example5_Kahane-et-al-study4.R")
+```
+
+Kahane and colleagues [-@Kahane2015] investigate how responses to moral dilemmas in which participants have to decide whether or not they would sacrifice one person's life to save several other lives relate to other indicators of moral orientation. Traditionally, greater endorsement for sacrificing one life to save several others has been interpreted as a more "utilitarian" moral orientation (i.e. a stronger concern for the greater good). Kahane et al. contest this interpretation in a number of studies. In Study 4, they compare the traditionally used dilemmas with a new set of new ones in which the sacrifice for the greater good is not another person’s life, but something the participant would have a partial interest in(e.g. buying a new mobile phone vs. donating the money to save lives in a distant country) and find no significant correlation between the two ($r(`r Kahane.N-2`) = `r printnum(Kahane.r.GG)`$, $p = `r printp(Kahane.p)`$), $N = `r Kahane.N`$^[Study 4 in @Kahane2015 had a final sample size of $N = `r nrow(Kahane.data)`$, but due to missing data in `r sum(is.na(Kahane.data))` case, the correlation reported here is based on a sample of $N = `r Kahane.N`$.]). The authors conclude that “a robust association between ‘utilitarian’ judgment and genuine concern for the greater good seems extremely unlikely” (p. 206), given the statistical power their study had to detect meaningful effect sizes. 
+
+This interpretation can be formalized by performing an equivalence test for correlations, where equivalence bounds are set to an effect size the study had reasonable power to detect. With `r Kahane.N` participants, the study had 80% power to detect effects of $r = `r printnum(Kahane.r.80)`$. Performing the TOST procedure given bounds of $\Delta_{L} = `r printnum(-Kahane.r.80)`$ and $\Delta_{U} = `r printnum(Kahane.r.80)`$, the result is indeed statistically equivalent, $r(`r Kahane.N-2`) = `r printnum(Kahane.r.GG)`$, $p = `r printp(max(Kahane$TOST_p1, Kahane$TOST_p2))`$. This means that values smaller than $r = `r printnum(-Kahane.r.80)`$ and larger than $r = `r printnum(Kahane.r.80)`$ can be rejected at an alpha level of 5%. If other researchers are interested in examining possible smaller effects, they can design studies with a larger sample size that can detect, or reject, smaller effect sizes.
+
+
+\begin{textbox} 
+\caption{Calculating an equivalence test in R.} 
+\begin{framed} 
+{\sffamily \small \setstretch{1}
+Equivalence tests can be performed  based on summary statistics (e.g., means, standard deviations, and sample sizes) with the ``TOSTER'' package in the open-source programming language R. Using TOSTER in R requires no more programming experience than reproducing three lines of code. 
+\vspace{2mm}
+
+The code below reproduces the result of Example 2 in R, which can be typed into R or RStudio. The parameters of the test are defined inside the parentheses. Simply copy the example to the console, replace the values with the corresponding values of your own study, and run the code. Results and a plot will automatically be printed. A help file provides more detailed information.
+
+\begin{verbatim}
+install.packages("TOSTER")
+
+library(TOSTER)
+
+TOSTtwo(m1 = 4.7857, m2 = 4.6569, sd1 = 1.0897, sd2 = 1.1895, n1 = 49, 
+n2 = 51, low_eqbound_d = -0.6401696, high_eqbound_d = 0.6401696, alpha = 0.05, 
+var.equal = FALSE)
+\end{verbatim}
+}
+\end{framed} 
+\end{textbox}
+
+
+
+# Discussion
+
+Equivalence testing is a relatively simple and flexible technique to falsify hypotheses. As long as we can calculate a confidence interval around a parameter estimate, we can compare it to a smallest effect size of interest. The result of an equivalence test can be obtained by mere visual inspection of the CI [@Seaman1998; @Tryon2001], or by performing two one-sided tests (the TOST procedure).
+
+As with any statistical test, the usefulness of the result of an equivalence test depends on the question we ask. The question manifests itself in the bounds we set: Is our data surprising if the true effect lies outside of the bounds? If we test against very wide bounds, observing statistical equivalence can hardly be considered surprising, given that most effects in psychology are small to medium [@Hemphill2003]. Examining the papers citing @Lakens2017a, we found that some researchers state a SESOI without providing a justification for it [@Brown2017; @Schumann2017].^[In these two cases, one could perhaps guess that benchmark values for a Cohen’s $d$ of “medium” size was chosen.] An equivalence test using a SESOI of $d = 0.5$ might very well answer a question the researchers are interested in [for one possible justification based on minimally important differences, see @Norman2003], but researchers should always provide a detailed justification of their chosen SESOI, given that this is in essence a justification for why they ask a specific question from their data. Equivalence bounds should be specified before results are known, ideally as part of a pre-registration [cf. @Piaggio2006]. Researchers might be tempted to set equivalence bounds *after* looking at their data, but like any other results-dependent decision, this "boundary hacking" will increase error rates.
+
+We recommend that researchers by default perform both a null hypothesis significance test and an equivalence test on their data. The biggest challenge for researchers will be specifying the smallest effect size of interest. Psychological theories are usually too vague to derive precise predictions, and if there are no theoretical reference points, natural constraints, or prior studies a researcher can use to define the SESOI for a hypothesis test, any choice will be somewhat arbitrary. In some research lines researchers might simply use equivalence tests to reject consecutively smaller effect sizes by performing studies with increasingly larger sample sizes while controlling error rates, until no one is willing to invest the time and resources needed to examine the presence of even smaller effects. Nevertheless, it is important to realize that not specifying a SESOI for our research questions at all will severely hinder theoretical progress [@Morey2016]. While our initial choices of a smallest effect size of interest may be arbitrary, incorporating equivalence tests in our statistical toolbox will in time contribute to better --- and more falsifiable --- theories.
+
+
+
+
+
+
+\newpage
+
+
+# References
+
+
+
+
+
+
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}

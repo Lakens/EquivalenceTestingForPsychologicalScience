@@ -1,0 +1,27 @@
+---
+title: "Box 1"
+author: "Peder M Isager"
+date: "November 8, 2017"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Box 1: Calculating an equivalence test in R
+
+If you want to calculate an equivalence test based on summary statistics, you can use the "TOSTER" package in the open-source progamming language R. Using TOSTER requires very little eperience with R, or programming in general. Below are the few simple steps required to calculate an equivalence test with TOSTER. 
+
+1. Download, install, and open R.
+2. Run `install.packages("TOSTER")` in the console.
+3. Run `library(TOSTER)` in the console.
+4. The example below reproduces the result of example 1 in R. The parameters of the test are defined inside the parantheses, and you can run `?TOSTtwo` in the console to get information about them. Simply copy the example to the console, replace the values with the corresponding values of your own study, and run the code. Results and a plot will automatially be printed.
+```{r eval=FALSE} 
+TOSTtwo(m1  = 4.7857, m2  = 4.6569, sd1 = 1.0897, sd2 = 1.1895, n1 = 49, n2 = 51, low_eqbound_d = -0.6401696, high_eqbound_d = 0.6401696, alpha = 0.05, var.equal = FALSE)
+```
+
+5. The example above uses the `TOSTtwo()` function in the TOSTER package which calculates an equivalence test for an independent samples t-test. If you need to calculate TOST for a different type of test (e.g. a correlation), you can find documentation for `TOSTr()` and other functions of the TOSTER package by going to https://cran.r-project.org/web/packages/TOSTER/TOSTER.pdf in your web browser. 
+
+
