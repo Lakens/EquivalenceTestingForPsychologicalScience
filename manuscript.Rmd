@@ -69,6 +69,7 @@ library("rmarkdown")
 library("knitr")
 library("TOSTER")
 library("purrr")
+library("lattice")
 ```
 
 Psychologists should be able to falsify predictions. A common prediction in psychological research is that an effect that differs from zero exists in the population. For example, we might predict that priming American Asian women with their Asian identity will increase their performance on a math test compared to women who are primed with their female identity. To be able to design a study that allows for strong inferences [@Platt1964], it is important to specify which test result would *falsify* this hypothesis.
@@ -137,7 +138,7 @@ The SESOI, and thus the equivalence bounds, can be set in terms of standardized 
 
 Both raw equivalence bounds and standardized equivalence bounds have specific benefits and limitations [for a discussion, see @Baguley2009]. When raw mean differences are meaningful and of theoretical interest, it makes sense to set equivalence bounds based on raw effect sizes. When the raw mean difference is of less theoretical importance, or different measures are used across research lines, it is often easier to set equivalence bounds based on standardized differences. Researchers should realize that equivalence bounds based on raw differences or standardized differences ask slightly different questions, and justify their choice for either option. When setting equivalence bounds based on earlier research, such as in replication studies, equivalence bounds based on raw or standardized differences would ideally give the same result, and large differences in standard deviations between studies are as important to interpret as large differences in means.
 
-In the remainder of this article we will provide five detailed examples of equivalence tests performed on published studies. These concrete and easy to follow examples will illustrate all approaches to setting equivalence bounds discussed above, and demonstrate how to perform and report equivalence tests. The code to reproduce these analyses is available at <https://osf.io/qamc6/>^[The OSF project contains all necessary files to reproduce examples 1--5 in R, jamovi [@jamovi2017], and in a spreadsheet; as well as a preprint of this manuscript. The manuscript, including the figures and statistical analyses, was created using RStudio [1.1.383, @RStudioTeam2016] and `r my_citation`].
+In the remainder of this article we will provide five detailed examples of equivalence tests performed on published studies. These concrete and easy to follow examples will illustrate all approaches to setting equivalence bounds discussed above, and demonstrate how to perform and report equivalence tests. The code to reproduce these analyses is available at <https://osf.io/qamc6/>^[The OSF project contains all necessary files to reproduce examples 1--5 in R, jamovi [@jamovi2017], and in a spreadsheet; as well as a preprint of this manuscript. The manuscript, including the figures and statistical analyses, was created using RStudio [1.1.383, @RStudioTeam2016] and `r my_citation`.].
 
 ```{r include=FALSE}
 source("examples_plotgrid.R")
