@@ -18,7 +18,7 @@ affiliation:
     institution   : "Eindhoven University of Technology"
 
 author_note: >
-  We would like to thank Courtney Soderberg for creating the first version of the TOST function to test two independent proportions.
+  This work was funded by VIDI grant 452-17-013. We would like to thank Courtney Soderberg for creating the first version of the TOST function to test two independent proportions. Authorship contributions: 
   DL: Article conceptualization, programming TOSTER package and spreadsheet, main contributor to the introduction section and, discussion section.
   AS and PI: Main contributors to examples and figures.
   All authors contributed to manuscript conceptualization, editing, review for submission, and additional software development. AS and PI contributed equally to the manuscript, and order was determined by executing the following commands in R:
@@ -60,13 +60,6 @@ output            : papaja::apa6_pdf
 getwd()
 ```{r include = FALSE}
 library("papaja")
-
-# papaja:::fetch_zotero_refs(
-#   x = "1786197"
-#   , bib_name = "equivalence.bib"
-#   , API_key = "F7JGNtCxZGT6q87Eeg2zNWiP"
-#   , lib_type = "group"
-# )
 ```
 
 Psychologists should be able to falsify predictions. A common prediction in psychological research is that an effect that differs from zero exists in the population. For example, we might predict that priming American Asian women with their Asian identity will increase their performance on a math test compared to women who are primed with their female identity. To be able to design a study that allows for strong inferences [@Platt1964], it is important to specify which test result would *falsify* this hypothesis.
