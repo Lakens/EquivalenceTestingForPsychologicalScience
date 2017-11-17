@@ -63,5 +63,6 @@ infplot <-   baseplot +
   annotate("text", size = rel(3.5), x=0.6, y=plotheight/2.5, parse=TRUE, label="H[0]") + #label for upper area (H0)
   annotate("text", size = rel(3.5), x=-0.35, y=plotheight/2.5, parse=TRUE, label="H[1]") #label for lower area (H1)
 
+#tiff(file="NHSTplot.tiff",width=1400,height=2000, units = "px", res = 300)
 grid.arrange(NHSTplot, METplot, eqplot, infplot, ncol = 1) #combine plots in one column (all stacked)
-
+#dev.off()

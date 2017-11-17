@@ -119,5 +119,6 @@ kahaneplot = baseplot +
 lay <- rbind(c(1,2,5),
              c(3,4,5)) # Define the figure layout. Think of the c()s as a grid/ Plot 1-5 will be alloted the relative space in the grid.
 
-
+#tiff(file="example_grid.tiff",width=2000,height=1400, units = "px", res = 300)
 example.grid <- grid.arrange(moonplot, brandtplot, lynottplot, kahaneplot, metaplot, layout_matrix = lay)
+#dev.off()
