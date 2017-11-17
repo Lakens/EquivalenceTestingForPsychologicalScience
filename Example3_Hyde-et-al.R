@@ -1,9 +1,14 @@
-
 # Hyde, Lindberg, Linn, Ellis, and Williams (2008) meta analysis
 
+
+# Load TOSTER
+library(TOSTER)
+
+# Set smallest effect size of interest and alpha
 sesoi <- 0.1
 alpha <- 0.005
 
+# Run equivalence test on each grade group
 gr2  <- TOSTmeta(ES = 0.06, se = 0.003, low_eqbound_d=-sesoi, high_eqbound_d=sesoi, alpha=alpha, plot = FALSE)
 gr3  <- TOSTmeta(ES = 0.04, se = 0.002, low_eqbound_d=-sesoi, high_eqbound_d=sesoi, alpha=alpha, plot = FALSE)
 gr4 <- TOSTmeta(ES = -0.01, se = 0.002, low_eqbound_d=-sesoi, high_eqbound_d=sesoi, alpha=alpha, plot = FALSE)
