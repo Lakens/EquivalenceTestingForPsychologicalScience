@@ -47,7 +47,7 @@ header-includes:
 
 bibliography      : ["equivalence.bib"]
 
-figsintext        : no
+figsintext        : yes
 figurelist        : no
 tablelist         : no
 footnotelist      : no
@@ -57,7 +57,7 @@ lang              : "english"
 class             : "man"
 output            : papaja::apa6_pdf
 ---
-getwd()
+
 ```{r include = FALSE}
 library("papaja")
 ```
@@ -75,11 +75,10 @@ In any one-sided test, for an alpha level of 5%, we can reject $H_0$ when the 90
 
 Note that in this paper we will control the Type 1 error rate at 5% for all examples, mirroring the studies we reanalyze [but we recommend to justify the Type 1 error rate in original research based on substantive arguments, @Lakens2017b]. It might be easiest to think of an equivalence test as checking whether the confidence interval excludes the SESOI, but for any given study an equivalence test could also be conceptualized as determining whether effect sizes or test statistics are closer to zero than some critical value, or even whether the *p*-value for a NHST is larger than some *p*-value bound.
 
-```{r echo=FALSE, fig.width=5, fig.height=7, fig.cap="Illustration of null hypotheses ($H_0$) and alternative hypotheses ($H_1$) for different types of significance tests. **A)** NHST: Tests the hypothesis ($H_0$) that an effect is equal to 0. **B)**  Minimal effects test: Tests the hypothesis ($H_0$) that an effect is larger than $\\Delta_{L}$ *and* smaller than $\\Delta_{U}$. **C)** Equivalence test: Tests the hypothesis ($H_0$) that an effect is smaller than $\\Delta_{L}$ *or* larger than $\\Delta_{U}$. **D)** Inferiority test: Tests the hypothesis ($H_0$) that an effect is larger than $\\Delta$."}
+```{r echo=FALSE, fig.width=3, fig.height=6, fig.cap="Illustration of null hypotheses ($H_0$) and alternative hypotheses ($H_1$) for different types of significance tests. **A)** NHST: Tests the hypothesis ($H_0$) that an effect is equal to 0. **B)**  Minimal effects test: Tests the hypothesis ($H_0$) that an effect is larger than $\\Delta_{L}$ *and* smaller than $\\Delta_{U}$. **C)** Equivalence test: Tests the hypothesis ($H_0$) that an effect is smaller than $\\Delta_{L}$ *or* larger than $\\Delta_{U}$. **D)** Inferiority test: Tests the hypothesis ($H_0$) that an effect is larger than $\\Delta$."}
 
 # Plot H0 and H1 regions for different significance tests
 source("H0H1_plot.R")
-getwd()
 ```
 
 In this article we provide five reproducible examples of equivalence tests which illustrate the procedure in easy-to-use free software (R, jamovi, and a spreadsheet). But first, we discuss different approaches to determining the SESOI for psychological research, which determines the statistical question an equivalence test answers. 
@@ -130,7 +129,7 @@ In the remainder of this article we will provide five detailed examples of equiv
 ```{r include=FALSE}
 source("examples_plotgrid.R")
 ```
-```{r echo=FALSE, fig.cap=paste("Example effects plotted with 90% TOST CIs (thick lines) and 95% NHST CIs (thin lines), the NHST null hypothesis (solid vertical line) and the equivalence bounds (dashed vertical lines) displayed. **A)** Example 1 - Mean Difference. **B)** Example 2 - Mean Difference. **C)** Example 3 - Meta-analytic Effect Size. **D)** Example 4 - Proportion Difference. **E)** Example 5 - Pearson Correlation.")}
+```{r echo=FALSE, fig.width=7, fig.height=4, fig.cap=paste("Example effects plotted with 90% TOST CIs (thick lines) and 95% NHST CIs (thin lines), the NHST null hypothesis (solid vertical line) and the equivalence bounds (dashed vertical lines) displayed. **A)** Example 1 - Mean Difference. **B)** Example 2 - Mean Difference. **C)** Example 3 - Meta-analytic Effect Size. **D)** Example 4 - Proportion Difference. **E)** Example 5 - Pearson Correlation.")}
 # Plot the TOST examples
 plot(example.grid)
 ```
