@@ -36,9 +36,9 @@ METplot <-   baseplot +
   annotate("segment", x = lowerbound, xend = lowerbound, y = plotheight, yend = -Inf, linetype = "dashed") + #dashed line for lower bound
   annotate("segment", x = upperbound, xend = upperbound, y = plotheight, yend = -Inf, linetype = "dashed") + #dashed line for upper bound
   annotate("rect", xmin = -0.2, xmax = 0.2, ymin = -Inf, ymax = 0.9, fill = "red", alpha = .2, color = NA) + #shading for H0 area
-  annotate("text", size = rel(3.5), x=-0.6, y=plotheight/2, parse=TRUE, label="H[1]") + #label for lower area (H1)
-  annotate("text", size = rel(3.5), x=0.6, y=plotheight/2, parse=TRUE, label="H[1]") + #label for upper area (H1)
-  annotate("text", size = rel(3.5), x=-0, y=plotheight/2, parse=TRUE, label="H[0]", hjust = 0.3) #label for minimal effects area (H1)
+  annotate("text", size = rel(3.5), x=-0.6, y=plotheight/3, parse=TRUE, label="H[1]") + #label for lower area (H1)
+  annotate("text", size = rel(3.5), x=0.6, y=plotheight/3, parse=TRUE, label="H[1]") + #label for upper area (H1)
+  annotate("text", size = rel(3.5), x=-0, y=plotheight/3, parse=TRUE, label="H[0]", hjust = 0.3) #label for minimal effects area (H1)
 
 #equivalence test plot
 eqplot <- baseplot +  
@@ -49,9 +49,9 @@ eqplot <- baseplot +
   annotate("segment", x = upperbound, xend = upperbound, y = plotheight, yend = -Inf, linetype = "dashed") + #dashed line for upper bound
   annotate("rect", xmin = -Inf, xmax = lowerbound, ymin = -Inf, ymax = plotheight, fill = "red", alpha = .2, color = NA) + #shading for lower area
   annotate("rect", xmin = upperbound, xmax = Inf, ymin = -Inf, ymax = plotheight, fill = "red", alpha = .2, color = NA) + #shading for upper area
-  annotate("text", size = rel(3.5), x=-0.6, y=plotheight/2, parse=TRUE, label="H[0]") + #label for lower area (H0)
-  annotate("text", size = rel(3.5), x=0.6, y=plotheight/2, parse=TRUE, label="H[0]") + #label for upper area (H0)
-  annotate("text", size = rel(3.5), x=-0, y=plotheight/2, parse=TRUE, label="H[1]", hjust = 0.3) #label for equivalence area
+  annotate("text", size = rel(3.5), x=-0.6, y=plotheight/3, parse=TRUE, label="H[0]") + #label for lower area (H0)
+  annotate("text", size = rel(3.5), x=0.6, y=plotheight/3, parse=TRUE, label="H[0]") + #label for upper area (H0)
+  annotate("text", size = rel(3.5), x=-0, y=plotheight/3, parse=TRUE, label="H[1]", hjust = 0.3) #label for equivalence area
 
 #inferiority plot
 infplot <-   baseplot +  
@@ -60,8 +60,8 @@ infplot <-   baseplot +
   ggtitle("D: Inferiority test") +
   annotate("segment", x = upperbound, xend = upperbound, y = plotheight, yend = -Inf, linetype = "dashed") + #dashed line for inferiority bound
   annotate("rect", xmin = upperbound, xmax = Inf, ymin = -Inf, ymax = 0.9, fill = "red", alpha = .2, color = NA) + #shading for H0 area
-  annotate("text", size = rel(3.5), x=0.6, y=plotheight/2, parse=TRUE, label="H[0]") + #label for upper area (H0)
-  annotate("text", size = rel(3.5), x=-0.35, y=plotheight/2, parse=TRUE, label="H[1]") #label for lower area (H1)
+  annotate("text", size = rel(3.5), x=0.6, y=plotheight/3, parse=TRUE, label="H[0]") + #label for upper area (H0)
+  annotate("text", size = rel(3.5), x=-0.35, y=plotheight/3, parse=TRUE, label="H[1]") #label for lower area (H1)
 
 grid.arrange(NHSTplot, METplot, eqplot, infplot, ncol = 1) #combine plots in one column (all stacked)
 
