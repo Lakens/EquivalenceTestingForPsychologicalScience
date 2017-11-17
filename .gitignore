@@ -2,7 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-.Rproj
+*.Rproj
 .html
 .pdf
 manuscript.aux
@@ -11,3 +11,4 @@ manuscript.log
 manuscript.out
 manuscript.pdf
 manuscript.tex
+manuscript_files/
