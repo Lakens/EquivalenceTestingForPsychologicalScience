@@ -1,4 +1,5 @@
-## Example 4 in three easy steps: comparing two independent proportions
+## Example 4 in three easy steps: comparing two independent proportions.
+
 
 # Every line that starts with a "#" is a comment, and contains information for you.
 
@@ -12,10 +13,10 @@ library(TOSTER)
 # Performing the TOST using the 'TOSTtwo.prop' function allows you to specify equivalence bounds in proportions.
 # If you want to use this for your own data, simply edit the numbers in the function below to match your data.
 
-TOSTER::TOSTtwo.prop(prop1 = 0.5074257,
-                     prop2 = 0.5745721,
-                     n1    = 404,
-                     n2    = 409,
-                     low_eqbound  = -0.2510861,
-                     high_eqbound = 0.2510861,
-                     alpha = 0.05)
+TOSTtwo.prop(prop1 = 0.5074257,  # Proportion of group 1
+             prop2 = 0.5745721,  # Proportion of group 2
+             n1    = 404,  # Number of subjects in group 1
+             n2    = 409,  # Number of subjects in group 2
+             low_eqbound  = -0.2510861,  # Value for the lower equivalence bound
+             high_eqbound = 0.2510861,  # Value for the lower equivalence bound
+             alpha = 0.05)  # Alpha level for TOST and NHST
