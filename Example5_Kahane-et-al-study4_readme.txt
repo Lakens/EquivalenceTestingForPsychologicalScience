@@ -1,0 +1,3 @@
+The dataset for study 4 of Kahane et al. was kindly provided by corresponding author Jim Everett. The data file was converted to CSV format and cleaned: Of the 253 participants finishing the online survey, 21 were excluded (because they either spent too little time on each question or failed the attention check), and all variables irrelevant to our re-analysis were deleted, leaving only "ClassicSacrificialDilemmas" and "GreaterGoodDilemmas".
+
+The TOST was performed using the Pearson correlation of these two variables. From the final sample of 232, only 231 subjects could be included in the TOST analysis, because one subject had missing data for the variable "ClassicSacrificalDilemmas".
