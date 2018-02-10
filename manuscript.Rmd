@@ -19,20 +19,7 @@ affiliation:
     
 note: "\\clearpage"
 
-author_note: >
-  This work was funded by VIDI grant 452-17-013. We would like to thank Courtney Soderberg for creating the first version of the TOST function to test two independent proportions, Dermot Lynott and Katie Corker for their helpful responses to our inquiries about @Lynott2014, Jim Everett and Brian Earp for their helpful responses and for providing the raw data for study 4 in Kahane et al. [-@Kahane2015], and Neil McLatchie and Jan Vanhove for valuable comments on an earlier version of this manuscript. 
-  \newline
-  Author contributions: 
-  DL: Article conceptualization, programming TOSTER package and spreadsheet, main contributor to the introduction section and discussion section.
-  AMS and PMI: Main contributors to examples and figures.
-  All authors contributed to manuscript conceptualization, editing, review for submission, and additional software development. AMS and PMI contributed equally to the manuscript, and order was determined by executing the following commands in R:
-  \newline
-  `set.seed(7998976/5271)`
-  \newline
-  `x <- sample(c("Anne", "Peder"), 1)`
-  \newline
-  `print(paste("The winner is", x, "!"))`
-  \newline
+author_note: 
 
 abstract: >
   Psychologists must be able to test both for the presence of an effect and for the absence of an effect. In addition to testing against zero, researchers can use the Two One-Sided Tests (TOST) procedure to test for *equivalence* and reject the presence of a smallest effect size of interest (SESOI). The two one-sided tests procedure can be used to determine if an observed effect is surprisingly small, given that a true effect at least as large as the SESOI exists. We explain a range of approaches to determine the SESOI in psychological science, and provide detailed examples of how equivalence tests should be performed and reported. Equivalence tests are an important extension of statistical tools psychologists currently use, and enable researchers to falsify predictions about the presence, and declare the absence, of meaningful effects. 
@@ -83,7 +70,7 @@ Alternatively, the researcher could decide that even if the true ratio in the po
 
 In any one-sided test, for an alpha level of 5%, we can reject $H_0$ when the 90% confidence interval around the observed estimate is in the predicted direction, and does not contain the value tested against (e.g., 0). In the two one-sided tests procedure the first one-sided test is used to test against values smaller than the lower equivalence bound ($\Delta_{L}$), and the second one-sided test is used to test against values larger than the upper equivalence bound ($\Delta_{U}$). Even though the TOST procedure consists of two one-sided tests, it is not necessary to control for multiple testing because both tests need to be statistically significant to conclude equivalence. Consequently, when reporting an equivalence test, it suffices to report the one-sided test with the smaller test parameter (e.g. $t$ or $r$) and thus the larger $p$-value. Statistical equivalence can be concluded when the largest of the two $p$-values is smaller than alpha. 
 
-Note that in this paper we will control the Type 1 error rate at 5% for all examples, mirroring the studies we reanalyze [but we recommend to justify the Type 1 error rate in original research based on substantive arguments, @Lakens2017b]. It may be easiest to think of an equivalence test as checking whether the confidence interval excludes the equivalence bounds, but for any given study an equivalence test could also be conceptualized as determining whether effect sizes or test statistics are closer to zero than some critical value, or even whether the *p*-value for a null-hypothesis significance test is larger than some *p*-value bound.
+Note that in this paper we will control the Type 1 error rate at 5% for all examples, mirroring the studies we reanalyze [but we recommend to justify the Type 1 error rate in original research based on substantive arguments, @Lakens2017b]. It may be easiest to think of an equivalence test as checking whether the entire 90% confidence interval falls entirely between the upper and lower equivalence bounds, but for any given study an equivalence test could also be conceptualized as determining whether effect sizes or test statistics are closer to zero than some critical value, or even whether the *p*-value for a null-hypothesis significance test is larger than some *p*-value bound.
 
 ```{r echo=FALSE, fig.width=4, fig.height=6.2, fig.cap="Illustration of null hypotheses ($H_0$) and alternative hypotheses ($H_1$) for different types of significance tests. **A)** Null-Hypothesis Significance Test: Tests if the hypothesis ($H_0$) that an effect is equal to 0 can be rejected. **B)**  Minimal effects test: Tests if the hypothesis ($H_0$) that an effect is larger than $\\Delta_{L}$ *and* smaller than $\\Delta_{U}$ can be rejected. **C)** Equivalence test: Tests if the hypothesis ($H_0$) that an effect is smaller than $\\Delta_{L}$ *or* larger than $\\Delta_{U}$ can be rejected. **D)** Inferiority test: Tests if the hypothesis ($H_0$) that an effect is larger than $\\Delta$ can be rejected."}
 
@@ -124,7 +111,7 @@ An equivalence test based on this approach does not answer any theoretical quest
 
 When there is no previous literature on a topic, researchers can justify their sample size based on reasonable resource limitations, which are specific to scientific disciplines and research questions (and can be expected to change over time). Where 22 patients with a rare neurological disorder might be the largest sample a single researcher can collect, a study on mTurk might easily collect hundreds or thousands of observations. Thus, whether or not the resource question that is answered by an equivalence test is interesting must be evaluated by peers, preferably when the study design is submitted to an ethical review board or as a Registered Report.
 
-Additional subjective justifications for a smallest effect size of interest are possible. For example, the Food and Drug Authorization has set equivalence bounds for bioequivalence studies, taking the decision out of the hands of individual researchers [@Senn2007]. We have provided several approaches to help researchers justify equivalence bounds, but want to repeat the warning by @Rogers1993, p. 564: 'The thoughtless application of "cookbook" prescriptions is ill-advised, regardless of whether the goal is to establish a difference or to establish equivalency between treatments'. By transparently reporting and adequately justifying the smallest effect size of interest, researchers can communicate the information their study contributes to the literature, and provide a starting point for a discussion about what a reasonable SESOI may be.
+Additional subjective justifications for a smallest effect size of interest are possible. For example, the Food and Drug Administration has set equivalence bounds for bioequivalence studies, taking the decision out of the hands of individual researchers [@Senn2007]. We have provided several approaches to help researchers justify equivalence bounds, but want to repeat the warning by @Rogers1993, p. 564: 'The thoughtless application of "cookbook" prescriptions is ill-advised, regardless of whether the goal is to establish a difference or to establish equivalency between treatments'. By transparently reporting and adequately justifying the smallest effect size of interest, researchers can communicate the information their study contributes to the literature, and provide a starting point for a discussion about what a reasonable SESOI may be.
 
 ```{r include=FALSE}
 r_refs(file = "r-references.bib")
@@ -135,7 +122,7 @@ The SESOI, and thus the equivalence bounds, can be set in terms of standardized 
 
 Both raw equivalence bounds and standardized equivalence bounds have specific benefits and limitations [for a discussion, see @Baguley2009]. When raw mean differences are meaningful and of theoretical interest, it makes sense to set equivalence bounds based on raw effect sizes. When the raw mean difference is of less theoretical importance, or different measures are used across research lines, it is often easier to set equivalence bounds based on standardized differences. Researchers should realize that equivalence bounds based on raw differences or standardized differences ask slightly different questions, and justify their choice for either option. When setting equivalence bounds based on earlier research, such as in replication studies, equivalence bounds based on raw or standardized differences would ideally give the same result, and large differences in standard deviations between studies are as important to interpret as large differences in means.
 
-In the remainder of this article we will provide five detailed examples of equivalence tests performed on published studies. These concrete and easy to follow examples will illustrate all approaches to setting equivalence bounds discussed above, and demonstrate how to perform and report equivalence tests. The code to reproduce these analyses is available at <https://osf.io/qamc6/>^[The OSF project contains all necessary files to reproduce examples 1--5 in R, jamovi [@jamovi2017], and in a spreadsheet; as well as a preprint of this manuscript. The manuscript, including the figures and statistical analyses, was created using RStudio [1.1.383, @RStudioTeam2016] and `r my_citation`.].
+In the remainder of this article we will provide five detailed examples of equivalence tests performed on published studies. These concrete and easy to follow examples will illustrate all approaches to setting equivalence bounds discussed above, and demonstrate how to perform and report equivalence tests. 
 
 ```{r include=FALSE}
 source("examples_plotgrid.R")
@@ -143,7 +130,7 @@ source("examples_plotgrid.R")
 ```{r echo=FALSE, fig.width=7, fig.height=4, fig.cap=paste("Example effects plotted with 90% two one-sided tests confidence intervals (thick lines) and 95% null-hypothesis significance test confidence intervals (thin lines), the null hypothesis (solid vertical line) and the equivalence bounds (dashed vertical lines) displayed. **A)** Example 1 - Mean Difference. **B)** Example 2 - Mean Difference. **C)** Example 3 - Meta-analytic Effect Size. **D)** Example 4 - Proportion Difference. **E)** Example 5 - Pearson Correlation.")}
 # Plot the TOST examples
 plot(example.grid)
-
+```
 ## Example 1: Not Statistically Equivalent and Not Statistically Different
 ```{r include=FALSE}
 source("Example1_MoonRoeder.R")
@@ -186,7 +173,7 @@ source("Example5_Kahane-et-al-study4.R")
 ```
 Kahane and colleagues [-@Kahane2015] investigate how responses to moral dilemmas in which participants have to decide whether or not they would sacrifice one person's life to save several other lives relate to other indicators of moral orientation. Traditionally, greater endorsement for sacrificing one life to save several others has been interpreted as a more "utilitarian" moral orientation (i.e. a stronger concern for the greater good). Kahane et al. contest this interpretation in a number of studies. In Study 4, they compare the traditionally used dilemmas with a set of new dilemmas in which the sacrifice for the greater good is not another person’s life, but something the participant would have a partial interest in (e.g. buying a new mobile phone vs. donating the money to save lives in a distant country). The authors find no significant correlation between the two set of dilemmas, $r(`r Kahane.N-2`) = `r printnum(Kahane.r.GG)`$, $p = `r printp(Kahane.p)`$, $N = `r Kahane.N`$^[Study 4 in @Kahane2015 had a final sample size of $N = `r nrow(Kahane.data)`$, but due to missing data in `r sum(is.na(Kahane.data))` case, the correlation reported here is based on a sample of $N = `r Kahane.N`$.]. The authors conclude that “a robust association between ‘utilitarian’ judgment and genuine concern for the greater good seems extremely unlikely” (p. 206), given the statistical power their study had to detect meaningful effect sizes.
 
-This interpretation can be formalized by performing an equivalence test for correlations, where equivalence bounds are set to an effect size the study had reasonable power to detect. With `r Kahane.N` participants, the study had 80% power to detect effects of $r = `r printnum(Kahane.r.80)`$. Performing the two one-sided tests procedure given bounds of $\Delta_{L} = `r printnum(-Kahane.r.80)`$ and $\Delta_{U} = `r printnum(Kahane.r.80)`$, the data is statistically equivalent, $r(`r Kahane.N-2`) = `r printnum(Kahane.r.GG)`$, $p = `r printp(max(Kahane$TOST_p1, Kahane$TOST_p2))`$. This means that values smaller than $r = `r printnum(-Kahane.r.80)`$ and larger than $r = `r printnum(Kahane.r.80)`$ can be rejected at an alpha level of 5%. If other researchers are interested in examining the presence of smaller effect size, they can design studies with a larger sample size.
+This interpretation can be formalized by performing an equivalence test for correlations, where equivalence bounds are set to an effect size the study had reasonable power to detect. With `r Kahane.N` participants, the study had 80% power to detect effects of $r = `r printnum(Kahane.r.80)`$. Performing the two one-sided tests procedure given bounds of $\Delta_{L} = `r printnum(-Kahane.r.80)`$ and $\Delta_{U} = `r printnum(Kahane.r.80)`$, the data is statistically equivalent, $r(`r Kahane.N-2`) = `r printnum(Kahane.r.GG)`$, $p = `r printp(max(Kahane$TOST_p1, Kahane$TOST_p2))`$. This means that values smaller than $r = `r printnum(-Kahane.r.80)`$ and larger than $r = `r printnum(Kahane.r.80)`$ can be rejected at an alpha level of 5%. If other researchers are interested in examining the presence of a smaller effect size, they can design studies with a larger sample size.
 
 
 \begin{textbox}
@@ -225,6 +212,32 @@ Equivalence bounds should be specified before results are known, ideally as part
 As with null-hypothesis significance tests, equivalence tests interpreted from a Neyman-Pearson perspective on statistical inferences are used to guide the actions of researchers while controlling error rates. Research lines sometimes require dichotomous choices. For example, a researcher might want to decide to discontinue a research line when an effect is too small to be considered meaningful. Equivalence tests based on carefully chosen equivalence bounds and error rates can be used as a rule to govern our behavior [@Neyman1933]. An equivalence test and a null-hypothesis significance test examine two different hypotheses, and can therefore be used in concert [@Weber2012]. We recommend that researchers by default perform both a null hypothesis significance test *and* an equivalence test on their data, as long as they can justify a smallest effect size of interest, in order to improve the falsifiability of predictions in psychological science.
 
 The biggest challenge for researchers will be to specify the smallest effect size of interest. Psychological theories are usually too vague to derive precise predictions, and if there are no theoretical reference points, natural constraints, or prior studies a researcher can use to define the SESOI for a hypothesis test, any choice will be somewhat arbitrary. In some research lines researchers might simply use equivalence tests to reject consecutively smaller effect sizes by performing studies with increasingly larger sample sizes while controlling error rates, until no one is willing to invest the time and resources needed to examine the presence of even smaller effects. Nevertheless, it is important to realize that not specifying a SESOI for our research questions at all will severely hinder theoretical progress [@Morey2016]. Incorporating equivalence tests in our statistical toolbox will in time contribute to better --- and more falsifiable --- theories.
+
+##Disclosures
+
+###Data, materials, and online resources
+The code to reproduce these analyses is available at <https://osf.io/qamc6/>^[The OSF project contains all necessary files to reproduce examples 1--5 in R, jamovi [@jamovi2017], and in a spreadsheet; as well as a preprint of this manuscript. The manuscript, including the figures and statistical analyses, was created using RStudio [1.1.383, @RStudioTeam2016] and `r my_citation`.].
+
+###Conflicts of Interest
+The authors declare that they have no conflicts of interest with respect to the authorship or the publication of this article.
+
+###Author Contributions
+DL: Article conceptualization, programming TOSTER package and spreadsheet, main contributor to the introduction section and discussion section.
+AMS and PMI: Main contributors to examples and figures.
+All authors contributed to manuscript conceptualization, editing, review for submission, and additional software development. AMS and PMI contributed equally to the manuscript, and order was determined by executing the following commands in R:
+  \newline
+  `set.seed(7998976/5271)`
+  \newline
+  `x <- sample(c("Anne", "Peder"), 1)`
+  \newline
+  `print(paste("The winner is", x, "!"))`
+  \newline
+
+###Acknowledgments
+This work was funded by VIDI grant 452-17-013. We would like to thank Courtney Soderberg for creating the first version of the TOST function to test two independent proportions, Dermot Lynott and Katie Corker for their helpful responses to our inquiries about @Lynott2014, Jim Everett and Brian Earp for their helpful responses and for providing the raw data for study 4 in Kahane et al. [-@Kahane2015], and Neil McLatchie and Jan Vanhove for valuable comments on an earlier version of this manuscript.
+
+###Prior versions
+A preprint version of this manuscript prior to peer-review can be found on PsyArxiv: https://psyarxiv.com/v3zkt/ (version 1). It is however imprecise in its explanation of how to justify the SESOI based on available resources. The updated preprint version (version 2) is identical in content to the published manuscript. 
 
 \newpage
 
